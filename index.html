@@ -24,6 +24,8 @@ input:focus,select:focus{border-color:#268cff}
 .dir input:checked+label{background:#17683f;border-color:#35d58b}
 button{width:100%;margin-top:18px;padding:15px;border:0;border-radius:8px;background:#268cff;color:#fff;font-size:17px;font-weight:bold;cursor:pointer}
 button:active{transform:scale(.99)}
+.clear-btn{background:#34445d;margin-top:10px}
+.clear-btn:active{background:#405575}
 .result{margin-top:20px;background:#0e1727;padding:18px;border-radius:10px;text-align:center}
 .lot{font-size:42px;font-weight:800;color:#45df96;margin-top:4px}
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
@@ -80,6 +82,7 @@ button:active{transform:scale(.99)}
 </div>
 
 <button type="submit">LLOGARIT LOT SIZE</button>
+<button type="button" id="clearBtn" class="clear-btn">CLEAR / PASTRO</button>
 </form>
 
 <div id="error" class="error"></div>
@@ -115,6 +118,24 @@ const SPECS = {
 document.getElementById('calculator').addEventListener('submit', function(e){
   e.preventDefault();
   calculate();
+});
+
+document.getElementById('clearBtn').addEventListener('click', function(){
+  ['entry','sl','tp','risk'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+
+  document.getElementById('buy').checked = true;
+  document.getElementById('pair').value = 'EURUSD';
+
+  const error = document.getElementById('error');
+  error.textContent = '';
+  error.style.display = 'none';
+
+  resetResults();
+
+  // Put the cursor back in Entry so the next trade can be entered immediately.
+  document.getElementById('entry').focus();
 });
 
 document.getElementById('pair').addEventListener('change', function(){
