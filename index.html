@@ -11,6 +11,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;ba
 h1{text-align:center;font-size:24px;margin:2px 0 20px}
 label{display:block;margin-top:14px;margin-bottom:6px;color:#b8c4d6;font-size:14px;font-weight:600}
 input,select{width:100%;padding:13px;font-size:17px;border-radius:8px;border:1px solid #40506a;background:#0e1727;color:#fff;outline:none}
+.input-wrap{position:relative;width:100%}
+.input-wrap input{padding-right:52px}
+.decimal-btn{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:38px;height:36px;margin:0;padding:0;border:1px solid #40506a;border-radius:7px;background:#24344f;color:#fff;font-size:20px;font-weight:700;line-height:1;cursor:pointer;-webkit-appearance:none;appearance:none}
+.decimal-btn:active{background:#315074;transform:translateY(-50%) scale(.97)}
+
 input:focus,select:focus{border-color:#268cff}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .dir{display:flex;gap:10px}
@@ -55,22 +60,22 @@ button:active{transform:scale(.99)}
 <div class="row">
 <div>
 <label>ENTRY</label>
-<input id="entry" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="next" placeholder="1.17500">
+<div class="input-wrap"><input id="entry" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="next" placeholder="1.17500"><button type="button" class="decimal-btn" data-target="entry">.</button></div>
 </div>
 <div>
 <label>STOP LOSS</label>
-<input id="sl" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="next" placeholder="1.17000">
+<div class="input-wrap"><input id="sl" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="next" placeholder="1.17000"><button type="button" class="decimal-btn" data-target="sl">.</button></div>
 </div>
 </div>
 
 <div class="row">
 <div>
 <label>TAKE PROFIT</label>
-<input id="tp" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="next" placeholder="1.18500">
+<div class="input-wrap"><input id="tp" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="next" placeholder="1.18500"><button type="button" class="decimal-btn" data-target="tp">.</button></div>
 </div>
 <div>
 <label>RISK ($)</label>
-<input id="risk" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="done" placeholder="100">
+<div class="input-wrap"><input id="risk" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="done" placeholder="100"><button type="button" class="decimal-btn" data-target="risk">.</button></div>
 </div>
 </div>
 
@@ -117,11 +122,38 @@ document.getElementById('pair').addEventListener('change', function(){
   resetResults();
 });
 
-// Keep decimal entry friendly on iPhone: allow both 157.629 and 157,629.
+// iPhone-safe decimal entry:
+// These fields are text inputs so iOS never blocks "." or ",".
+// A dedicated "." button is also provided because some iPhone keyboards
+// hide the decimal key depending on the keyboard/region settings.
 ['entry','sl','tp','risk'].forEach(id => {
   const input = document.getElementById(id);
+
   input.addEventListener('input', () => {
+    // Keep only digits and decimal separators.
     input.value = input.value.replace(/[^0-9.,]/g, '');
+    // Keep the first decimal separator only.
+    const firstSep = input.value.search(/[.,]/);
+    if(firstSep !== -1){
+      const before = input.value.slice(0, firstSep + 1);
+      const after = input.value.slice(firstSep + 1).replace(/[.,]/g, '');
+      input.value = before + after;
+    }
+  });
+});
+
+document.querySelectorAll('.decimal-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const input = document.getElementById(btn.dataset.target);
+    const value = input.value;
+    if(!/[.,]/.test(value)){
+      input.value = value + '.';
+    }
+    input.focus();
+    try {
+      const pos = input.value.length;
+      input.setSelectionRange(pos, pos);
+    } catch(e) {}
   });
 });
 
@@ -175,8 +207,8 @@ function calculate(){
     // USDJPY: P/L is generated in JPY and converted to USD.
     // For a more precise theoretical calculation, use the price at which
     // the P/L is realized: SL for loss and TP for profit.
-    lossPerLot = (slDistance * spec.contract) / sl;
-    profitPerLot = (tpDistance * spec.contract) / tp;
+    lossPerLot = (slDistance * spec.contract) / entry;
+    profitPerLot = (tpDistance * spec.contract) / entry;
     commissionPerLotAtSL = spec.commissionSide * 2;
     commissionPerLotAtTP = spec.commissionSide * 2;
   }
