@@ -1,28 +1,34 @@
 <!DOCTYPE html>
-<html>
+<html lang="sq">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>FTMO Lot Size Calculator</title>
 <style>
-body{font-family:Arial,sans-serif;background:#101827;color:white;margin:0;padding:20px}
-.app{max-width:520px;margin:auto;background:#182338;padding:20px;border-radius:15px}
-h1{text-align:center;font-size:24px}
-label{display:block;margin-top:14px;margin-bottom:6px;color:#b8c4d6}
-input,select{width:100%;padding:13px;font-size:17px;border-radius:8px;border:1px solid #40506a;background:#0e1727;color:white;box-sizing:border-box}
+*{box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:#101827;color:#fff;margin:0;padding:20px}
+.app{max-width:520px;margin:auto;background:#182338;padding:20px;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+h1{text-align:center;font-size:24px;margin:2px 0 20px}
+label{display:block;margin-top:14px;margin-bottom:6px;color:#b8c4d6;font-size:14px;font-weight:600}
+input,select{width:100%;padding:13px;font-size:17px;border-radius:8px;border:1px solid #40506a;background:#0e1727;color:#fff;outline:none}
+input:focus,select:focus{border-color:#268cff}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .dir{display:flex;gap:10px}
-.dir label{flex:1;text-align:center;background:#0e1727;padding:14px;border-radius:8px;border:1px solid #40506a;cursor:pointer}
+.dir label{flex:1;text-align:center;background:#0e1727;padding:14px;border-radius:8px;border:1px solid #40506a;cursor:pointer;margin:0}
 .dir input{display:none}
 .dir input:checked+label{background:#17683f;border-color:#35d58b}
-button{width:100%;margin-top:18px;padding:15px;border:0;border-radius:8px;background:#268cff;color:white;font-size:17px;font-weight:bold}
+button{width:100%;margin-top:18px;padding:15px;border:0;border-radius:8px;background:#268cff;color:#fff;font-size:17px;font-weight:bold;cursor:pointer}
+button:active{transform:scale(.99)}
 .result{margin-top:20px;background:#0e1727;padding:18px;border-radius:10px;text-align:center}
-.lot{font-size:42px;font-weight:bold;color:#45df96}
+.lot{font-size:42px;font-weight:800;color:#45df96;margin-top:4px}
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-.stat{background:#1d2a41;padding:12px;border-radius:8px;text-align:left}
+.stat{background:#1d2a41;padding:12px;border-radius:8px;text-align:left;min-height:62px}
 .stat span{display:block;color:#9eabc0;font-size:11px;margin-bottom:5px}
-.error{display:none;background:#632a31;color:#fff;padding:12px;margin-top:12px;border-radius:8px}
+.stat b{font-size:15px}
+.error{display:none;background:#632a31;color:#fff;padding:12px;margin-top:12px;border-radius:8px;line-height:1.4}
 .note{font-size:11px;color:#8997aa;margin-top:14px;line-height:1.5}
+.spec{font-size:10px;color:#6f7d92;margin-top:8px;line-height:1.4}
+@media(max-width:380px){body{padding:12px}.app{padding:16px}.row{grid-template-columns:1fr}.lot{font-size:38px}}
 </style>
 </head>
 <body>
@@ -30,7 +36,6 @@ button{width:100%;margin-top:18px;padding:15px;border:0;border-radius:8px;backgr
 <h1>FTMO Lot Size Calculator</h1>
 
 <form id="calculator">
-
 <label>PAIR</label>
 <select id="pair">
 <option value="EURUSD">EURUSD</option>
@@ -50,22 +55,22 @@ button{width:100%;margin-top:18px;padding:15px;border:0;border-radius:8px;backgr
 <div class="row">
 <div>
 <label>ENTRY</label>
-<input id="entry" type="number" step="any" placeholder="1.17500">
+<input id="entry" type="number" step="any" inputmode="decimal" placeholder="1.17500">
 </div>
 <div>
 <label>STOP LOSS</label>
-<input id="sl" type="number" step="any" placeholder="1.17000">
+<input id="sl" type="number" step="any" inputmode="decimal" placeholder="1.17000">
 </div>
 </div>
 
 <div class="row">
 <div>
 <label>TAKE PROFIT</label>
-<input id="tp" type="number" step="any" placeholder="1.18500">
+<input id="tp" type="number" step="any" inputmode="decimal" placeholder="1.18500">
 </div>
 <div>
 <label>RISK ($)</label>
-<input id="risk" type="number" step="any" placeholder="100">
+<input id="risk" type="number" step="any" inputmode="decimal" placeholder="100">
 </div>
 </div>
 
@@ -83,114 +88,141 @@ button{width:100%;margin-top:18px;padding:15px;border:0;border-radius:8px;backgr
 <div class="stat"><span>PROFIT NË TP</span><b id="profitResult">—</b></div>
 <div class="stat"><span>R:R</span><b id="rrResult">—</b></div>
 <div class="stat"><span>SL DISTANCE</span><b id="distanceResult">—</b></div>
+<div class="stat"><span>COMMISSION ROUND-TRIP</span><b id="commissionResult">—</b></div>
+<div class="stat"><span>RISK PA KOMISION</span><b id="rawRiskResult">—</b></div>
 </div>
 </div>
 
 <div class="note">
-Risku përfshin komisionin round-trip të FTMO: Forex $5 për 1 lot dhe Metals sipas normës së publikuar nga FTMO. Loti rrumbullakohet poshtë në 0.01.
+Llogaritja përdor specifikat që më dërgove nga MetaTrader: EURUSD/GBPUSD/USDJPY = 100,000 njësi, volume step 0.01 dhe $2.50/lot për anë; XAUUSD = 100 oz, volume step 0.01 dhe 0.0007% për anë. Loti rrumbullakohet gjithmonë POSHTË në hapin 0.01.
 </div>
+<div class="spec">Nuk përfshihen spread-i floating, slippage ose swap-i. Risku real i ekzekutimit mund të ndryshojë pak nga kalkulimi teorik.</div>
 </div>
 
 <script>
-document.getElementById("calculator").onsubmit = function(event) {
-    event.preventDefault();
-    calculate();
-    return false;
+const SPECS = {
+  EURUSD: { contract: 100000, type: 'forex', min: 0.01, max: 50, step: 0.01, commissionSide: 2.50 },
+  GBPUSD: { contract: 100000, type: 'forex', min: 0.01, max: 50, step: 0.01, commissionSide: 2.50 },
+  USDJPY: { contract: 100000, type: 'usdjpy', min: 0.01, max: 50, step: 0.01, commissionSide: 2.50 },
+  XAUUSD: { contract: 100, type: 'gold', min: 0.01, max: 100, step: 0.01, commissionRateSide: 0.000007 }
 };
 
-function calculate() {
+document.getElementById('calculator').addEventListener('submit', function(e){
+  e.preventDefault();
+  calculate();
+});
 
-    var error = document.getElementById("error");
-    error.style.display = "none";
+document.getElementById('pair').addEventListener('change', function(){
+  // Clear stale result when changing instrument.
+  resetResults();
+});
 
-    var pair = document.getElementById("pair").value;
-    var entry = parseFloat(document.getElementById("entry").value);
-    var sl = parseFloat(document.getElementById("sl").value);
-    var tp = parseFloat(document.getElementById("tp").value);
-    var risk = parseFloat(document.getElementById("risk").value);
+function calculate(){
+  const error = document.getElementById('error');
+  error.style.display = 'none';
 
-    var buy = document.getElementById("buy").checked;
+  const pair = document.getElementById('pair').value;
+  const entry = parseFloat(document.getElementById('entry').value);
+  const sl = parseFloat(document.getElementById('sl').value);
+  const tp = parseFloat(document.getElementById('tp').value);
+  const risk = parseFloat(document.getElementById('risk').value);
+  const buy = document.getElementById('buy').checked;
+  const spec = SPECS[pair];
 
-    if (isNaN(entry) || isNaN(sl) || isNaN(tp) || isNaN(risk) || risk <= 0) {
-        return showError("Plotëso Entry, Stop Loss, Take Profit dhe Risk.");
-    }
+  if(!Number.isFinite(entry) || !Number.isFinite(sl) || !Number.isFinite(tp) || !Number.isFinite(risk) || risk <= 0){
+    return showError('Plotëso Entry, Stop Loss, Take Profit dhe Risk.');
+  }
+  if(entry <= 0 || sl <= 0 || tp <= 0){
+    return showError('Entry, Stop Loss dhe Take Profit duhet të jenë më të mëdha se 0.');
+  }
 
-    if (buy && sl >= entry) {
-        return showError("BUY: Stop Loss duhet të jetë më i ulët se Entry.");
-    }
+  if(buy && sl >= entry) return showError('BUY: Stop Loss duhet të jetë më i ulët se Entry.');
+  if(buy && tp <= entry) return showError('BUY: Take Profit duhet të jetë më i lartë se Entry.');
+  if(!buy && sl <= entry) return showError('SELL: Stop Loss duhet të jetë më i lartë se Entry.');
+  if(!buy && tp >= entry) return showError('SELL: Take Profit duhet të jetë më i ulët se Entry.');
 
-    if (buy && tp <= entry) {
-        return showError("BUY: Take Profit duhet të jetë më i lartë se Entry.");
-    }
+  const slDistance = Math.abs(entry - sl);
+  const tpDistance = Math.abs(tp - entry);
 
-    if (!buy && sl <= entry) {
-        return showError("SELL: Stop Loss duhet të jetë më i lartë se Entry.");
-    }
+  let lossPerLot = 0;
+  let profitPerLot = 0;
+  let commissionPerLotAtSL = 0;
+  let commissionPerLotAtTP = 0;
 
-    if (!buy && tp >= entry) {
-        return showError("SELL: Take Profit duhet të jetë më i ulët se Entry.");
-    }
+  if(spec.type === 'forex'){
+    // EURUSD / GBPUSD: profit currency is USD.
+    lossPerLot = slDistance * spec.contract;
+    profitPerLot = tpDistance * spec.contract;
+    commissionPerLotAtSL = spec.commissionSide * 2;
+    commissionPerLotAtTP = spec.commissionSide * 2;
+  }
 
-    var slDistance = Math.abs(entry - sl);
-    var tpDistance = Math.abs(tp - entry);
+  if(spec.type === 'usdjpy'){
+    // USDJPY: P/L is generated in JPY and converted to USD.
+    // For a more precise theoretical calculation, use the price at which
+    // the P/L is realized: SL for loss and TP for profit.
+    lossPerLot = (slDistance * spec.contract) / sl;
+    profitPerLot = (tpDistance * spec.contract) / tp;
+    commissionPerLotAtSL = spec.commissionSide * 2;
+    commissionPerLotAtTP = spec.commissionSide * 2;
+  }
 
-    var lossPerLot;
-    var profitPerLot;
-    var commissionPerLot;
+  if(spec.type === 'gold'){
+    // XAUUSD: 100 oz/lot and USD profit currency.
+    lossPerLot = slDistance * spec.contract;
+    profitPerLot = tpDistance * spec.contract;
+    // MT5 shows 0.0007% per side. Use entry for opening commission
+    // and SL/TP price for closing commission.
+    commissionPerLotAtSL = (entry * spec.contract * spec.commissionRateSide) + (sl * spec.contract * spec.commissionRateSide);
+    commissionPerLotAtTP = (entry * spec.contract * spec.commissionRateSide) + (tp * spec.contract * spec.commissionRateSide);
+  }
 
-    if (pair == "EURUSD" || pair == "GBPUSD") {
-        lossPerLot = slDistance * 100000;
-        profitPerLot = tpDistance * 100000;
-        commissionPerLot = 5.00;
-    }
+  const riskPerLot = lossPerLot + commissionPerLotAtSL;
+  const rawLot = risk / riskPerLot;
 
-    if (pair == "USDJPY") {
-        lossPerLot = (slDistance * 100000) / entry;
-        profitPerLot = (tpDistance * 100000) / entry;
-        commissionPerLot = 5.00;
-    }
+  // Round DOWN to the broker's 0.01 volume step.
+  const lot = Math.floor((rawLot / spec.step) + 1e-10) * spec.step;
+  const roundedLot = Number(lot.toFixed(2));
 
-    if (pair == "XAUUSD") {
-        lossPerLot = slDistance * 100;
-        profitPerLot = tpDistance * 100;
-        commissionPerLot = (100 * entry) * 0.000007 * 2;
-    }
+  if(roundedLot < spec.min){
+    return showError('Risku është shumë i vogël për 0.01 lot me këtë Stop Loss.');
+  }
+  if(roundedLot > spec.max){
+    return showError('Lot Size del mbi maksimumin e simbolit (' + spec.max.toFixed(2) + ' lot).');
+  }
 
-    var riskPerLot = lossPerLot + commissionPerLot;
-    var rawLot = risk / riskPerLot;
+  const actualRisk = riskPerLot * roundedLot;
+  const profit = (profitPerLot - commissionPerLotAtTP) * roundedLot;
+  const rr = profit / actualRisk;
+  const commissionDisplay = commissionPerLotAtSL * roundedLot;
+  const rawRisk = lossPerLot * roundedLot;
 
-    /* Always round down to 0.01 */
-    var lot = Math.floor(rawLot * 100) / 100;
+  document.getElementById('lot').textContent = roundedLot.toFixed(2);
+  document.getElementById('riskResult').textContent = '$' + actualRisk.toFixed(2);
+  document.getElementById('profitResult').textContent = '$' + profit.toFixed(2);
+  document.getElementById('rrResult').textContent = '1 : ' + rr.toFixed(2);
+  document.getElementById('commissionResult').textContent = '$' + commissionDisplay.toFixed(2);
+  document.getElementById('rawRiskResult').textContent = '$' + rawRisk.toFixed(2);
 
-    if (lot < 0.01) {
-        return showError("Risku është shumë i vogël për 0.01 lot me këtë Stop Loss.");
-    }
-
-    var actualRisk = riskPerLot * lot;
-    var profit = (profitPerLot - commissionPerLot) * lot;
-    var rr = profit / actualRisk;
-
-    document.getElementById("lot").innerHTML = lot.toFixed(2);
-    document.getElementById("riskResult").innerHTML = "$" + actualRisk.toFixed(2);
-    document.getElementById("profitResult").innerHTML = "$" + profit.toFixed(2);
-    document.getElementById("rrResult").innerHTML = "1 : " + rr.toFixed(2);
-
-    if (pair == "EURUSD" || pair == "GBPUSD") {
-        document.getElementById("distanceResult").innerHTML = slDistance.toFixed(5);
-    } else {
-        document.getElementById("distanceResult").innerHTML = slDistance.toFixed(2);
-    }
+  const digits = pair === 'EURUSD' || pair === 'GBPUSD' ? 5 : pair === 'USDJPY' ? 3 : 2;
+  document.getElementById('distanceResult').textContent = slDistance.toFixed(digits);
 }
 
-function showError(message) {
-    var error = document.getElementById("error");
-    error.innerHTML = message;
-    error.style.display = "block";
-    document.getElementById("lot").innerHTML = "—";
-    document.getElementById("riskResult").innerHTML = "—";
-    document.getElementById("profitResult").innerHTML = "—";
-    document.getElementById("rrResult").innerHTML = "—";
-    document.getElementById("distanceResult").innerHTML = "—";
+function showError(message){
+  const error = document.getElementById('error');
+  error.textContent = message;
+  error.style.display = 'block';
+  resetResults();
+}
+
+function resetResults(){
+  document.getElementById('lot').textContent = '—';
+  document.getElementById('riskResult').textContent = '—';
+  document.getElementById('profitResult').textContent = '—';
+  document.getElementById('rrResult').textContent = '—';
+  document.getElementById('distanceResult').textContent = '—';
+  document.getElementById('commissionResult').textContent = '—';
+  document.getElementById('rawRiskResult').textContent = '—';
 }
 </script>
 </body>
