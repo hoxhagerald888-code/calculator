@@ -55,22 +55,22 @@ button:active{transform:scale(.99)}
 <div class="row">
 <div>
 <label>ENTRY</label>
-<input id="entry" type="number" step="any" inputmode="decimal" placeholder="1.17500">
+<input id="entry" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="next" placeholder="1.17500">
 </div>
 <div>
 <label>STOP LOSS</label>
-<input id="sl" type="number" step="any" inputmode="decimal" placeholder="1.17000">
+<input id="sl" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="next" placeholder="1.17000">
 </div>
 </div>
 
 <div class="row">
 <div>
 <label>TAKE PROFIT</label>
-<input id="tp" type="number" step="any" inputmode="decimal" placeholder="1.18500">
+<input id="tp" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="next" placeholder="1.18500">
 </div>
 <div>
 <label>RISK ($)</label>
-<input id="risk" type="number" step="any" inputmode="decimal" placeholder="100">
+<input id="risk" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="done" placeholder="100">
 </div>
 </div>
 
@@ -117,15 +117,29 @@ document.getElementById('pair').addEventListener('change', function(){
   resetResults();
 });
 
+// Keep decimal entry friendly on iPhone: allow both 157.629 and 157,629.
+['entry','sl','tp','risk'].forEach(id => {
+  const input = document.getElementById(id);
+  input.addEventListener('input', () => {
+    input.value = input.value.replace(/[^0-9.,]/g, '');
+  });
+});
+
 function calculate(){
   const error = document.getElementById('error');
   error.style.display = 'none';
 
   const pair = document.getElementById('pair').value;
-  const entry = parseFloat(document.getElementById('entry').value);
-  const sl = parseFloat(document.getElementById('sl').value);
-  const tp = parseFloat(document.getElementById('tp').value);
-  const risk = parseFloat(document.getElementById('risk').value);
+  // iPhone/Safari can use either comma or dot as decimal separator.
+  // Read text inputs and normalize comma -> dot before parsing.
+  const toNumber = (id) => {
+    const value = document.getElementById(id).value.trim().replace(/,/g, '.');
+    return value === '' ? NaN : Number(value);
+  };
+  const entry = toNumber('entry');
+  const sl = toNumber('sl');
+  const tp = toNumber('tp');
+  const risk = toNumber('risk');
   const buy = document.getElementById('buy').checked;
   const spec = SPECS[pair];
 
