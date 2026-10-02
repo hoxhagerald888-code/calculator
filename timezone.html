@@ -15,7 +15,6 @@
 
 <title>Forex Daily Agenda</title>
 
-
 <style>
 
 * {
@@ -23,9 +22,7 @@
 }
 
 body {
-
     margin: 0;
-
     background:
         radial-gradient(
             circle at top,
@@ -33,9 +30,7 @@ body {
             #0b1018 48%,
             #080c12 100%
         );
-
     color: #f4f7fb;
-
     font-family:
         -apple-system,
         BlinkMacSystemFont,
@@ -43,199 +38,123 @@ body {
         "Segoe UI",
         Arial,
         sans-serif;
-
     min-height: 100vh;
 }
 
-
 .container {
-
     width: 100%;
-
     max-width: 680px;
-
     margin: auto;
-
-    padding:
-        24px
-        16px
-        35px;
+    padding: 24px 16px 35px;
 }
-
 
 /* HEADER */
 
 .header {
-
     text-align: center;
-
     margin-bottom: 20px;
 }
 
-
 .logo {
-
     font-size: 14px;
-
     font-weight: 700;
-
     letter-spacing: 2px;
-
     color: #6eaefc;
-
     text-transform: uppercase;
-
     margin-bottom: 7px;
 }
 
-
 .title {
-
     font-size: 31px;
-
     font-weight: 850;
-
     letter-spacing: -1px;
 }
 
-
 .subtitle {
-
     margin-top: 6px;
-
     color: #8996a8;
-
     font-size: 13px;
 }
-
 
 /* CLOCK */
 
 .clock {
-
     padding: 22px 18px;
-
     border-radius: 22px;
-
     background:
         linear-gradient(
             145deg,
             #151e2b,
             #0f1621
         );
-
     border: 1px solid #29384c;
-
     box-shadow:
         0 14px 35px rgba(0,0,0,.28);
-
     text-align: center;
-
     margin-bottom: 18px;
 }
 
-
 .clock-time {
-
     font-size: 42px;
-
     line-height: 1;
-
     font-weight: 850;
-
     letter-spacing: 1px;
 }
 
-
 .clock-date {
-
     margin-top: 9px;
-
     color: #8f9bad;
-
     font-size: 13px;
-
     text-transform: capitalize;
 }
 
-
 .status {
-
     display: inline-flex;
-
     align-items: center;
-
     gap: 7px;
-
     margin-top: 14px;
-
     padding: 8px 13px;
-
     border-radius: 30px;
-
     background: #1d2b3d;
-
     border: 1px solid #30445e;
-
     color: #dce9f8;
-
     font-size: 12px;
-
     font-weight: 750;
 }
 
-
 .status-dot {
-
     width: 8px;
-
     height: 8px;
-
     border-radius: 50%;
-
     background: #4da3ff;
-
-    box-shadow:
-        0 0 10px #4da3ff;
+    box-shadow: 0 0 10px #4da3ff;
 }
 
-
-/* SESSION GRID */
+/* SESSION CARDS */
 
 .sessions {
-
     display: grid;
-
     gap: 13px;
 }
 
-
 .session-card {
-
     position: relative;
-
     padding: 18px;
-
     border-radius: 20px;
-
     background:
         linear-gradient(
             145deg,
             #131c28,
             #0f1620
         );
-
     border: 1px solid #273649;
-
     transition:
         transform .2s ease,
         border-color .2s ease,
         box-shadow .2s ease;
 }
 
-
 .session-card.active {
-
     border-color: #4da3ff;
 
     box-shadow:
@@ -245,122 +164,72 @@ body {
     transform: translateY(-1px);
 }
 
-
 .session-top {
-
     display: flex;
-
     justify-content: space-between;
-
     align-items: flex-start;
-
     gap: 12px;
 }
 
-
 .session-name {
-
     font-size: 20px;
-
     font-weight: 850;
-
     letter-spacing: -.3px;
 }
 
-
 .session-time {
-
     margin-top: 5px;
-
     color: #8997aa;
-
     font-size: 13px;
-
     font-weight: 600;
 }
 
-
 .active-badge {
-
     padding: 6px 10px;
-
     border-radius: 20px;
-
     background: #243449;
-
     color: #9daec3;
-
     font-size: 10px;
-
     font-weight: 800;
-
     white-space: nowrap;
 }
 
-
 .session-card.active .active-badge {
-
     background: #4da3ff;
-
     color: #06111d;
-
 }
-
 
 /* PAIRS */
 
 .pair-label {
-
     margin-top: 17px;
-
     color: #69788c;
-
     font-size: 10px;
-
     font-weight: 800;
-
     letter-spacing: 1.2px;
-
     text-transform: uppercase;
 }
 
-
 .pairs {
-
     display: flex;
-
     flex-wrap: wrap;
-
     gap: 7px;
-
     margin-top: 8px;
 }
 
-
 .pair {
-
-    padding:
-        7px
-        10px;
-
+    padding: 7px 10px;
     border-radius: 9px;
-
     background: #1c2735;
-
     border: 1px solid #2d3d51;
-
     color: #e8eef6;
-
     font-size: 12px;
-
     font-weight: 750;
 }
-
 
 /* OVERLAP */
 
 .overlap {
-
     background:
         linear-gradient(
             145deg,
@@ -371,78 +240,53 @@ body {
     border-color: #36516e;
 }
 
-
 .overlap .pair {
-
     background: #202f42;
-
     border-color: #3a506b;
 }
 
-
-/* FOOTER INFO */
+/* INFO */
 
 .info {
-
     margin-top: 15px;
-
     padding: 14px 16px;
-
     border-radius: 16px;
-
     background: rgba(17,24,34,.8);
-
     border: 1px solid #202d3d;
-
     color: #788699;
-
     font-size: 11px;
-
     line-height: 1.55;
-
     text-align: center;
 }
 
-
 .info strong {
-
     color: #aebbd0;
 }
-
 
 /* MOBILE */
 
 @media (max-width: 420px) {
 
     .container {
-
         padding:
             20px
             12px
             30px;
     }
 
-
     .title {
-
         font-size: 27px;
     }
 
-
     .clock-time {
-
         font-size: 36px;
     }
 
-
     .session-card {
-
         padding: 16px;
     }
 
-
     .session-name {
-
         font-size: 18px;
     }
 
@@ -452,12 +296,9 @@ body {
 
 </head>
 
-
 <body>
 
-
 <div class="container">
-
 
     <!-- HEADER -->
 
@@ -488,13 +329,11 @@ body {
             --:--:--
         </div>
 
-
         <div
             id="date"
             class="clock-date">
             --
         </div>
-
 
         <div
             id="status"
@@ -511,7 +350,7 @@ body {
     </div>
 
 
-    <!-- SESSIONS -->
+    <!-- SESSION CARDS -->
 
     <div
         id="sessions"
@@ -523,47 +362,44 @@ body {
 
     <div class="info">
 
-        <strong>
-            Orari
-        </strong>
+        <strong>Orari</strong>
 
         llogaritet automatikisht sipas
         <strong>Europe/Tirane</strong>.
 
-        Kjo përfshin automatikisht
-        ndryshimet e orës verore/dimërore.
+        Ndryshimet verore/dimërore
+        llogariten automatikisht.
 
         <br><br>
 
-        <strong>
-            Pair-et:
-        </strong>
+        <strong>Pair-et:</strong>
 
         EURUSD · GBPUSD · USDJPY · XAUUSD ·
         AUDUSD · USDCAD · USDCHF · GBPJPY
 
     </div>
 
-
 </div>
 
 
 <script>
 
-
 /* =====================================================
-   CONFIG
+   TIMEZONE
 ===================================================== */
 
+const ALBANIA_ZONE = "Europe/Tirane";
 
-const ALBANIA_ZONE =
-    "Europe/Tirane";
 
+/* =====================================================
+   SESSION DATA
+
+   KËTU JANË 8 PAIR-ET E NDARA SIPAS SESIONEVE
+===================================================== */
 
 const SESSION_DATA = [
 
     {
-
         id: "asia",
 
         name: "🌏 ASIA / TOKYO",
@@ -575,19 +411,14 @@ const SESSION_DATA = [
         close: 18,
 
         pairs: [
-
             "USDJPY",
             "AUDUSD",
-            "GBPJPY",
-            "XAUUSD"
-
+            "GBPJPY"
         ]
-
     },
 
 
     {
-
         id: "london",
 
         name: "🇬🇧 LONDON",
@@ -599,21 +430,16 @@ const SESSION_DATA = [
         close: 17,
 
         pairs: [
-
             "EURUSD",
             "GBPUSD",
             "GBPJPY",
             "USDCHF",
-            "USDJPY",
-            "XAUUSD"
-
+            "USDJPY"
         ]
-
     },
 
 
     {
-
         id: "newyork",
 
         name: "🇺🇸 NEW YORK",
@@ -625,26 +451,21 @@ const SESSION_DATA = [
         close: 17,
 
         pairs: [
-
             "EURUSD",
             "GBPUSD",
             "USDJPY",
             "XAUUSD",
             "USDCAD",
-            "USDCHF",
-            "GBPJPY"
-
+            "USDCHF"
         ]
-
     }
 
 ];
 
 
 /* =====================================================
-   TIMEZONE FUNCTIONS
+   GET TIME PARTS
 ===================================================== */
-
 
 function getParts(date, zone) {
 
@@ -652,23 +473,17 @@ function getParts(date, zone) {
         new Intl.DateTimeFormat(
             "en-US",
             {
-
                 timeZone: zone,
 
                 year: "numeric",
-
                 month: "2-digit",
-
                 day: "2-digit",
 
                 hour: "2-digit",
-
                 minute: "2-digit",
-
                 second: "2-digit",
 
                 hour12: false
-
             }
         ).formatToParts(date);
 
@@ -689,10 +504,9 @@ function getParts(date, zone) {
 }
 
 
-
-/*
-   Merr offset-in real të timezone.
-*/
+/* =====================================================
+   TIMEZONE OFFSET
+===================================================== */
 
 function getOffsetMinutes(
     date,
@@ -703,11 +517,8 @@ function getOffsetMinutes(
         new Intl.DateTimeFormat(
             "en-US",
             {
-
                 timeZone: zone,
-
                 timeZoneName: "longOffset"
-
             }
         ).formatToParts(date);
 
@@ -721,9 +532,7 @@ function getOffsetMinutes(
 
 
     if (!zonePart) {
-
         return 0;
-
     }
 
 
@@ -734,9 +543,7 @@ function getOffsetMinutes(
 
 
     if (!match) {
-
         return 0;
-
     }
 
 
@@ -760,11 +567,9 @@ function getOffsetMinutes(
 }
 
 
-
-/*
-   Konverton një orar të një timezone
-   në UTC.
-*/
+/* =====================================================
+   LOCAL TIME → UTC
+===================================================== */
 
 function zonedTimeToUTC(
 
@@ -821,11 +626,9 @@ function zonedTimeToUTC(
 }
 
 
-
 /* =====================================================
-   ALBANIA DATE
+   TODAY IN ALBANIA
 ===================================================== */
-
 
 function getAlbaniaDate() {
 
@@ -849,11 +652,9 @@ function getAlbaniaDate() {
 }
 
 
-
 /* =====================================================
-   FORMAT
+   FORMAT ALBANIA TIME
 ===================================================== */
-
 
 function formatAlbaniaTime(
     date,
@@ -867,9 +668,11 @@ function formatAlbaniaTime(
             timeZone:
                 ALBANIA_ZONE,
 
-            hour: "2-digit",
+            hour:
+                "2-digit",
 
-            minute: "2-digit",
+            minute:
+                "2-digit",
 
             ...(seconds
                 ? {
@@ -878,7 +681,8 @@ function formatAlbaniaTime(
                 }
                 : {}),
 
-            hour12: false
+            hour12:
+                false
 
         }
     ).format(date);
@@ -886,6 +690,9 @@ function formatAlbaniaTime(
 }
 
 
+/* =====================================================
+   DATE
+===================================================== */
 
 function formatDate() {
 
@@ -920,7 +727,6 @@ function formatDate() {
    BUILD SESSION TIMES
 ===================================================== */
 
-
 function buildSessions() {
 
     const d =
@@ -934,13 +740,10 @@ function buildSessions() {
                 zonedTimeToUTC(
 
                     d.year,
-
                     d.month,
-
                     d.day,
 
                     session.open,
-
                     0,
 
                     session.zone
@@ -952,13 +755,10 @@ function buildSessions() {
                 zonedTimeToUTC(
 
                     d.year,
-
                     d.month,
-
                     d.day,
 
                     session.close,
-
                     0,
 
                     session.zone
@@ -971,7 +771,6 @@ function buildSessions() {
                 ...session,
 
                 start,
-
                 end
 
             };
@@ -983,9 +782,8 @@ function buildSessions() {
 
 
 /* =====================================================
-   ACTIVE SESSION
+   ACTIVE SESSIONS
 ===================================================== */
-
 
 function getActiveSessions(
     sessions,
@@ -1002,9 +800,8 @@ function getActiveSessions(
 
 
 /* =====================================================
-   OVERLAP
+   LONDON + NEW YORK OVERLAP
 ===================================================== */
-
 
 function getOverlap(
     sessions
@@ -1029,11 +826,8 @@ function getOverlap(
     const start =
         new Date(
             Math.max(
-
                 london.start.getTime(),
-
                 newYork.start.getTime()
-
             )
         );
 
@@ -1041,21 +835,15 @@ function getOverlap(
     const end =
         new Date(
             Math.min(
-
                 london.end.getTime(),
-
                 newYork.end.getTime()
-
             )
         );
 
 
     return {
-
         start,
-
         end
-
     };
 
 }
@@ -1064,7 +852,6 @@ function getOverlap(
 /* =====================================================
    CURRENT STATUS
 ===================================================== */
-
 
 function getCurrentStatus(
     active,
@@ -1097,268 +884,17 @@ function getCurrentStatus(
 
 
 /* =====================================================
-   RENDER
+   CREATE CARD
 ===================================================== */
-
-
-function render() {
-
-    const now =
-        new Date();
-
-
-    const sessions =
-        buildSessions();
-
-
-    const active =
-        getActiveSessions(
-            sessions,
-            now
-        );
-
-
-    const overlap =
-        getOverlap(
-            sessions
-        );
-
-
-    /*
-       CLOCK
-    */
-
-    document.getElementById(
-        "clock"
-    ).textContent =
-        formatAlbaniaTime(
-            now,
-            true
-        );
-
-
-    document.getElementById(
-        "date"
-    ).textContent =
-        formatDate();
-
-
-    document.getElementById(
-        "statusText"
-    ).textContent =
-        getCurrentStatus(
-            active,
-            now,
-            overlap
-        );
-
-
-    /*
-       SESSION CARDS
-    */
-
-    const container =
-        document.getElementById(
-            "sessions"
-        );
-
-
-    let html = "";
-
-
-    /*
-       ASIA
-    */
-
-    const asia =
-        sessions.find(
-            s =>
-                s.id ===
-                "asia"
-        );
-
-
-    html += createCard(
-
-        asia,
-
-        now,
-
-        false
-
-    );
-
-
-    /*
-       LONDON
-    */
-
-    const london =
-        sessions.find(
-            s =>
-                s.id ===
-                "london"
-        );
-
-
-    html += createCard(
-
-        london,
-
-        now,
-
-        false
-
-    );
-
-
-    /*
-       OVERLAP
-    */
-
-    const overlapPairs = [
-
-        "EURUSD",
-
-        "GBPUSD",
-
-        "GBPJPY",
-
-        "USDCHF",
-
-        "USDJPY",
-
-        "XAUUSD",
-
-        "USDCAD"
-
-    ];
-
-
-    const overlapActive =
-        now >= overlap.start &&
-        now < overlap.end;
-
-
-    html += `
-
-        <div class="session-card overlap
-            ${overlapActive ? "active" : ""}">
-
-            <div class="session-top">
-
-                <div>
-
-                    <div class="session-name">
-
-                        🔥 LONDON + NEW YORK
-
-                    </div>
-
-                    <div class="session-time">
-
-                        ${formatAlbaniaTime(
-                            overlap.start
-                        )}
-                        –
-                        ${formatAlbaniaTime(
-                            overlap.end
-                        )}
-
-                        · Ora Shqipëri
-
-                    </div>
-
-                </div>
-
-
-                <div class="active-badge">
-
-                    ${
-                        overlapActive
-                        ? "TANI"
-                        : "OVERLAP"
-                    }
-
-                </div>
-
-            </div>
-
-
-            <div class="pair-label">
-
-                Pair-et e sesionit
-
-            </div>
-
-
-            <div class="pairs">
-
-                ${
-                    overlapPairs.map(
-                        pair =>
-
-                        `<span class="pair">
-                            ${pair}
-                        </span>`
-
-                    ).join("")
-                }
-
-            </div>
-
-        </div>
-
-    `;
-
-
-    /*
-       NEW YORK
-    */
-
-    const newYork =
-        sessions.find(
-            s =>
-                s.id ===
-                "newyork"
-        );
-
-
-    html += createCard(
-
-        newYork,
-
-        now,
-
-        false
-
-    );
-
-
-    container.innerHTML =
-        html;
-
-}
-
-
-
-/* =====================================================
-   CARD CREATOR
-===================================================== */
-
 
 function createCard(
     session,
-    now,
-    forceActive
+    now
 ) {
 
     const isActive =
-        forceActive ||
-        (
-            now >= session.start &&
-            now < session.end
-        );
+        now >= session.start &&
+        now < session.end;
 
 
     return `
@@ -1440,23 +976,243 @@ function createCard(
 
 
 /* =====================================================
-   START
+   RENDER
 ===================================================== */
 
+function render() {
+
+    const now =
+        new Date();
+
+
+    const sessions =
+        buildSessions();
+
+
+    const active =
+        getActiveSessions(
+            sessions,
+            now
+        );
+
+
+    const overlap =
+        getOverlap(
+            sessions
+        );
+
+
+    /* CLOCK */
+
+    document.getElementById(
+        "clock"
+    ).textContent =
+        formatAlbaniaTime(
+            now,
+            true
+        );
+
+
+    document.getElementById(
+        "date"
+    ).textContent =
+        formatDate();
+
+
+    document.getElementById(
+        "statusText"
+    ).textContent =
+        getCurrentStatus(
+            active,
+            now,
+            overlap
+        );
+
+
+    /* CARDS */
+
+    const container =
+        document.getElementById(
+            "sessions"
+        );
+
+
+    let html = "";
+
+
+    /*
+       ASIA
+    */
+
+    const asia =
+        sessions.find(
+            s =>
+                s.id ===
+                "asia"
+        );
+
+
+    html += createCard(
+        asia,
+        now
+    );
+
+
+    /*
+       LONDON
+    */
+
+    const london =
+        sessions.find(
+            s =>
+                s.id ===
+                "london"
+        );
+
+
+    html += createCard(
+        london,
+        now
+    );
+
+
+    /*
+       OVERLAP
+    */
+
+    const overlapPairs = [
+
+        "EURUSD",
+        "GBPUSD",
+        "GBPJPY",
+        "USDCHF",
+        "USDJPY",
+        "XAUUSD",
+        "USDCAD"
+
+    ];
+
+
+    const overlapActive =
+        now >= overlap.start &&
+        now < overlap.end;
+
+
+    html += `
+
+        <div class="session-card overlap
+            ${overlapActive ? "active" : ""}">
+
+            <div class="session-top">
+
+                <div>
+
+                    <div class="session-name">
+
+                        🔥 LONDON + NEW YORK
+
+                    </div>
+
+
+                    <div class="session-time">
+
+                        ${formatAlbaniaTime(
+                            overlap.start
+                        )}
+
+                        –
+
+                        ${formatAlbaniaTime(
+                            overlap.end
+                        )}
+
+                        · Ora Shqipëri
+
+                    </div>
+
+                </div>
+
+
+                <div class="active-badge">
+
+                    ${
+                        overlapActive
+                        ? "TANI"
+                        : "OVERLAP"
+                    }
+
+                </div>
+
+            </div>
+
+
+            <div class="pair-label">
+
+                Pair-et e sesionit
+
+            </div>
+
+
+            <div class="pairs">
+
+                ${
+                    overlapPairs.map(
+
+                        pair =>
+
+                        `<span class="pair">
+                            ${pair}
+                        </span>`
+
+                    ).join("")
+                }
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    /*
+       NEW YORK
+
+       GBPJPY NUK ËSHTË KËTU
+    */
+
+    const newYork =
+        sessions.find(
+            s =>
+                s.id ===
+                "newyork"
+        );
+
+
+    html += createCard(
+        newYork,
+        now
+    );
+
+
+    container.innerHTML =
+        html;
+
+}
+
+
+/* =====================================================
+   START
+===================================================== */
 
 render();
 
 
 setInterval(
-
     render,
-
     1000
-
 );
 
 </script>
-
 
 </body>
 </html>
