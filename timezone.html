@@ -1,645 +1,1065 @@
 <!DOCTYPE html>
 <html lang="sq">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
 <title>Forex Daily Agenda</title>
 
 <style>
 
-*{
-box-sizing:border-box
+* {
+    box-sizing: border-box;
 }
 
-body{
-font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
-background:#101827;
-color:#fff;
-margin:0;
-padding:20px
+body {
+    margin: 0;
+    background: #0b0f14;
+    color: #f5f7fa;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "Segoe UI",
+        Arial,
+        sans-serif;
 }
 
-.app{
-max-width:520px;
-margin:auto;
-background:#182338;
-padding:20px;
-border-radius:15px;
-box-shadow:0 10px 30px rgba(0,0,0,.25)
+.container {
+    max-width: 720px;
+    margin: auto;
+    padding: 18px;
 }
 
-h1{
-text-align:center;
-font-size:24px;
-margin:2px 0 6px
+.title {
+    font-size: 28px;
+    font-weight: 800;
 }
 
-.subtitle{
-text-align:center;
-color:#9eabc0;
-font-size:13px;
-margin-bottom:18px
+.subtitle {
+    color: #8d98a7;
+    margin-top: 4px;
 }
 
-.clock{
-background:#0e1727;
-border:1px solid #40506a;
-border-radius:10px;
-padding:15px;
-text-align:center;
-margin-bottom:14px
+.clock {
+    margin-top: 18px;
+    padding: 18px;
+    border-radius: 18px;
+    background: #151b23;
+    border: 1px solid #27303b;
 }
 
-.time{
-font-size:32px;
-font-weight:800;
-letter-spacing:1px
+.clock-time {
+    font-size: 38px;
+    font-weight: 800;
+    letter-spacing: 1px;
 }
 
-.date{
-color:#9eabc0;
-font-size:13px;
-margin-top:5px
+.clock-date {
+    color: #929dab;
+    margin-top: 5px;
 }
 
-.session{
-border-radius:10px;
-padding:16px;
-margin-top:12px;
-border:1px solid #40506a;
-background:#0e1727
+.current {
+    margin-top: 12px;
+    display: inline-block;
+    padding: 7px 11px;
+    border-radius: 20px;
+    background: #253044;
+    font-size: 13px;
+    font-weight: 700;
 }
 
-.session.active{
-border-color:#35d58b;
-box-shadow:0 0 0 1px rgba(53,213,139,.15)
+.card {
+    margin-top: 14px;
+    padding: 16px;
+    border-radius: 16px;
+    background: #151b23;
+    border: 1px solid #293442;
 }
 
-.session-title{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:10px;
-font-size:17px;
-font-weight:800
+.card.active {
+    border: 2px solid #4da3ff;
+    background: #172330;
 }
 
-.badge{
-font-size:11px;
-padding:5px 8px;
-border-radius:20px;
-background:#34445d;
-color:#cbd5e1;
-white-space:nowrap
+.card-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: flex-start;
 }
 
-.active .badge{
-background:#17683f;
-color:#fff
+.session-name {
+    font-size: 20px;
+    font-weight: 800;
 }
 
-.session-time{
-font-size:12px;
-color:#8997aa;
-margin-top:5px
+.hours {
+    font-size: 14px;
+    color: #9aa5b4;
+    margin-top: 5px;
 }
 
-.pairs{
-display:flex;
-flex-wrap:wrap;
-gap:7px;
-margin-top:12px
+.badge {
+    font-size: 10px;
+    font-weight: 800;
+    padding: 6px 9px;
+    border-radius: 14px;
+    background: #303c50;
+    color: #dbe5f2;
+    white-space: nowrap;
 }
 
-.pair{
-background:#1d2a41;
-border:1px solid #33435d;
-border-radius:7px;
-padding:7px 9px;
-font-size:12px;
-font-weight:700
+.badge.now {
+    background: #4da3ff;
+    color: #07111c;
 }
 
-.low{
-border-color:#6b5660
+.pairs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 13px;
 }
 
-.low .badge{
-background:#4a3941
+.pair {
+    padding: 7px 10px;
+    border-radius: 9px;
+    background: #202833;
+    border: 1px solid #303a46;
+    font-size: 13px;
+    font-weight: 700;
 }
 
-.back{
-display:block;
-width:100%;
-margin-top:16px;
-padding:14px;
-border-radius:8px;
-background:#268cff;
-color:#fff;
-text-decoration:none;
-text-align:center;
-font-size:16px;
-font-weight:700
+.note {
+    margin-top: 14px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: #111820;
+    border: 1px solid #242e39;
+    color: #9ca7b5;
+    font-size: 12px;
+    line-height: 1.5;
 }
 
-.note{
-font-size:11px;
-color:#8997aa;
-margin-top:14px;
-line-height:1.5;
-text-align:center
+.timeline {
+    margin-top: 20px;
 }
 
-@media(max-width:380px){
-
-body{
-padding:12px
+.hour {
+    padding: 13px 14px;
+    margin-bottom: 7px;
+    border-radius: 12px;
+    background: #121820;
+    border: 1px solid #222c37;
 }
 
-.app{
-padding:16px
+.hour.active {
+    border-color: #4da3ff;
+    background: #172330;
 }
 
-.time{
-font-size:28px
+.hourtop {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
 }
 
+.h {
+    font-weight: 800;
+}
+
+.s {
+    font-size: 11px;
+    color: #8e99a8;
+    margin-top: 3px;
+}
+
+.now {
+    font-size: 10px;
+    font-weight: 800;
+    color: #4da3ff;
+}
+
+.hpairs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 9px;
+}
+
+.hp {
+    font-size: 11px;
+    padding: 5px 7px;
+    border-radius: 7px;
+    background: #1e2732;
+    border: 1px solid #2e3946;
+    font-weight: 700;
+}
+
+.legend {
+    margin-top: 18px;
+    padding: 14px;
+    border-radius: 14px;
+    background: #151b23;
+    border: 1px solid #252e39;
+    color: #a6b0bd;
+    font-size: 12px;
+    line-height: 1.55;
+}
+
+.footer {
+    text-align: center;
+    color: #687382;
+    font-size: 11px;
+    margin: 18px 0;
 }
 
 </style>
-
 </head>
 
 <body>
 
-<div class="app">
+<div class="container">
 
-<h1>
-Forex Daily Agenda
-</h1>
+    <div class="title">
+        Forex Daily Agenda
+    </div>
 
-<div class="subtitle">
-8 instrumentet · Ora lokale e Shqipërisë 🇦🇱
-</div>
+    <div class="subtitle">
+        8 instrumentet · Të gjitha oraret vetëm në orën e Shqipërisë 🇦🇱
+    </div>
 
-<div class="clock">
 
-<div id="clock" class="time">
---:--:--
-</div>
+    <div class="clock">
 
-<div id="date" class="date">
---
-</div>
+        <div id="clock" class="clock-time">
+            --:--:--
+        </div>
 
-</div>
+        <div id="date" class="clock-date">
+            --
+        </div>
 
-<div id="asia" class="session">
+        <div id="current" class="current">
+            Duke kontrolluar...
+        </div>
 
-<div class="session-title">
+    </div>
 
-<span>
-🌏 ASIA / TOKYO
-</span>
 
-<span class="badge">
-MBYLLUR
-</span>
+    <div id="sessions"></div>
 
-</div>
 
-<div
-class="session-time"
-id="asiaTime">
---
-</div>
+    <div class="note">
 
-<div
-class="pairs"
-id="asiaPairs">
-</div>
+        <strong>Shënim:</strong>
 
-</div>
+        Orari llogaritet automatikisht nga zonat reale
+        Europe/Tirane, Europe/London,
+        America/New_York dhe Asia/Tokyo.
 
-<div id="london" class="session">
+        Kjo shmang gabimet gjatë javëve kur vendet ndryshojnë
+        orën verore/dimërore në data të ndryshme.
 
-<div class="session-title">
+    </div>
 
-<span>
-🇬🇧 LONDON
-</span>
 
-<span class="badge">
-MBYLLUR
-</span>
+    <div class="timeline" id="timeline"></div>
 
-</div>
 
-<div
-class="session-time"
-id="londonTime">
---
-</div>
+    <div class="legend">
 
-<div
-class="pairs"
-id="londonPairs">
-</div>
+        <strong>8 Pair-et:</strong>
+
+        EURUSD · GBPUSD · USDJPY · XAUUSD ·
+        AUDUSD · USDCAD · USDCHF · GBPJPY
+
+    </div>
+
+
+    <div class="footer">
+        Forex Daily Agenda · Europe/Tirane
+    </div>
 
 </div>
 
-<div id="overlap" class="session">
-
-<div class="session-title">
-
-<span>
-⚡ LONDON + NEW YORK
-</span>
-
-<span class="badge">
-MBYLLUR
-</span>
-
-</div>
-
-<div
-class="session-time"
-id="overlapTime">
---
-</div>
-
-<div
-class="pairs"
-id="overlapPairs">
-</div>
-
-</div>
-
-<div id="newyork" class="session">
-
-<div class="session-title">
-
-<span>
-🇺🇸 NEW YORK
-</span>
-
-<span class="badge">
-MBYLLUR
-</span>
-
-</div>
-
-<div
-class="session-time"
-id="newyorkTime">
---
-</div>
-
-<div
-class="pairs"
-id="newyorkPairs">
-</div>
-
-</div>
-
-<div id="low" class="session low">
-
-<div class="session-title">
-
-<span>
-😴 LOW ACTIVITY
-</span>
-
-<span class="badge">
-TANI
-</span>
-
-</div>
-
-<div class="session-time">
-Jashtë orareve kryesore të sesioneve
-</div>
-
-<div class="pairs">
-
-<span class="pair">
-Kujdes me spread-in
-</span>
-
-<span class="pair">
-Prit setup-in
-</span>
-
-</div>
-
-</div>
-
-<a
-href="index.html"
-class="back">
-
-← BACK TO CALCULATOR
-
-</a>
-
-<div class="note">
-
-Ora llogaritet automatikisht sipas Europe/Tirane.
-Sesioni London dhe New York përshtaten me ndryshimin e orës verore.
-
-</div>
-
-</div>
 
 <script>
 
-const TZ_ALBANIA =
-'Europe/Tirane';
 
-const TZ_TOKYO =
-'Asia/Tokyo';
+const TZ_AL = "Europe/Tirane";
 
-const TZ_LONDON =
-'Europe/London';
 
-const TZ_NEWYORK =
-'America/New_York';
+const sessions = [
 
-const pairs={
+    {
+        id: "asia",
 
-asia:[
-'USDJPY',
-'AUDUSD',
-'GBPJPY',
-'XAUUSD'
-],
+        name: "🌏 ASIA / TOKYO",
 
-london:[
-'EURUSD',
-'GBPUSD',
-'GBPJPY',
-'USDCHF',
-'XAUUSD',
-'USDJPY'
-],
+        zone: "Asia/Tokyo",
 
-overlap:[
-'EURUSD',
-'GBPUSD',
-'GBPJPY',
-'USDCHF',
-'USDJPY',
-'XAUUSD',
-'USDCAD'
-],
+        open: 9,
 
-newyork:[
-'EURUSD',
-'GBPUSD',
-'USDJPY',
-'XAUUSD',
-'USDCAD',
-'USDCHF',
-'GBPJPY'
-]
+        close: 18,
 
-};
+        pairs: [
+            "USDJPY",
+            "AUDUSD",
+            "GBPJPY",
+            "XAUUSD"
+        ]
+    },
 
-function parts(date,timeZone){
 
-const p=
-new Intl.DateTimeFormat(
-'en-GB',
-{
-timeZone,
-hour:'2-digit',
-minute:'2-digit',
-second:'2-digit',
-hour12:false,
-year:'numeric',
-month:'2-digit',
-day:'2-digit'
-}
-).formatToParts(date);
+    {
+        id: "london",
 
-const out={};
+        name: "🇬🇧 LONDON",
 
-p.forEach(x=>{
+        zone: "Europe/London",
 
-if(x.type!=='literal'){
-out[x.type]=x.value;
-}
+        open: 8,
 
-});
+        close: 17,
 
-return out;
+        pairs: [
+            "EURUSD",
+            "GBPUSD",
+            "GBPJPY",
+            "USDCHF",
+            "USDJPY",
+            "XAUUSD"
+        ]
+    },
 
-}
 
-function minutesInZone(
-date,
-timeZone
-){
+    {
+        id: "ny",
 
-const p=
-parts(date,timeZone);
+        name: "🇺🇸 NEW YORK",
 
-return
-Number(p.hour)*60+
-Number(p.minute);
+        zone: "America/New_York",
 
-}
+        open: 8,
 
-function setPairs(
-id,
-list
-){
+        close: 17,
 
-document.getElementById(id)
-.innerHTML=
+        pairs: [
+            "EURUSD",
+            "GBPUSD",
+            "USDJPY",
+            "XAUUSD",
+            "USDCAD",
+            "USDCHF",
+            "GBPJPY"
+        ]
+    }
 
-list.map(
-p=>`<span class="pair">${p}</span>`
-).join('');
+];
+
+
+
+function partsInZone(date, zone) {
+
+    const p =
+        new Intl.DateTimeFormat(
+            "en-US",
+            {
+                timeZone: zone,
+
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+
+                hour12: false
+            }
+        ).formatToParts(date);
+
+
+    const r = {};
+
+
+    p.forEach(x => {
+
+        r[x.type] = x.value;
+
+    });
+
+
+    return r;
 
 }
 
-setPairs(
-'asiaPairs',
-pairs.asia
-);
 
-setPairs(
-'londonPairs',
-pairs.london
-);
 
-setPairs(
-'overlapPairs',
-pairs.overlap
-);
+function offsetMs(date, zone) {
 
-setPairs(
-'newyorkPairs',
-pairs.newyork
-);
+    const p =
+        partsInZone(date, zone);
 
-document.getElementById(
-'asiaTime'
-).textContent=
-'09:00–18:00 Tokyo';
 
-document.getElementById(
-'londonTime'
-).textContent=
-'08:00–17:00 London';
+    const asUTC =
+        Date.UTC(
+            +p.year,
+            +p.month - 1,
+            +p.day,
+            +p.hour,
+            +p.minute,
+            +p.second
+        );
 
-document.getElementById(
-'overlapTime'
-).textContent=
-'London + New York overlap';
 
-document.getElementById(
-'newyorkTime'
-).textContent=
-'08:00–17:00 New York';
-
-function update(){
-
-const now=new Date();
-
-const al=
-parts(
-now,
-TZ_ALBANIA
-);
-
-document.getElementById(
-'clock'
-).textContent=
-`${al.hour}:${al.minute}:${al.second}`;
-
-document.getElementById(
-'date'
-).textContent=
-
-new Intl.DateTimeFormat(
-'sq-AL',
-{
-timeZone:TZ_ALBANIA,
-weekday:'long',
-day:'2-digit',
-month:'long',
-year:'numeric'
-}
-).format(now);
-
-const tokyo=
-minutesInZone(
-now,
-TZ_TOKYO
-);
-
-const london=
-minutesInZone(
-now,
-TZ_LONDON
-);
-
-const ny=
-minutesInZone(
-now,
-TZ_NEWYORK
-);
-
-const asiaActive=
-tokyo>=9*60 &&
-tokyo<18*60;
-
-const londonActive=
-london>=8*60 &&
-london<17*60;
-
-const nyActive=
-ny>=8*60 &&
-ny<17*60;
-
-const overlapActive=
-londonActive &&
-nyActive;
-
-setActive(
-'asia',
-asiaActive
-);
-
-setActive(
-'london',
-londonActive &&
-!overlapActive
-);
-
-setActive(
-'overlap',
-overlapActive
-);
-
-setActive(
-'newyork',
-nyActive &&
-!overlapActive
-);
-
-setActive(
-'low',
-!asiaActive &&
-!londonActive &&
-!nyActive
-);
+    return asUTC - date.getTime();
 
 }
 
-function setActive(
-id,
-active
-){
 
-const el=
-document.getElementById(id);
 
-const badge=
-el.querySelector('.badge');
+function zonedTimeToUTC(
+    year,
+    month,
+    day,
+    hour,
+    minute,
+    zone
+) {
 
-el.classList.toggle(
-'active',
-active
-);
+    let guess =
+        Date.UTC(
+            year,
+            month - 1,
+            day,
+            hour,
+            minute,
+            0
+        );
 
-if(id==='low'){
 
-badge.textContent=
-active?'TANI':'JO';
+    for (let i = 0; i < 4; i++) {
 
-}else{
+        const d =
+            new Date(guess);
 
-badge.textContent=
-active?'AKTIV':'MBYLLUR';
+
+        guess =
+            Date.UTC(
+                year,
+                month - 1,
+                day,
+                hour,
+                minute,
+                0
+            )
+            -
+            offsetMs(d, zone);
+
+    }
+
+
+    return new Date(guess);
 
 }
 
+
+
+function todayParts() {
+
+    const p =
+        partsInZone(
+            new Date(),
+            TZ_AL
+        );
+
+
+    return {
+
+        y: +p.year,
+
+        m: +p.month,
+
+        d: +p.day
+
+    };
+
 }
 
-update();
+
+
+function fmtAL(
+    date,
+    withSeconds = false
+) {
+
+    return new Intl.DateTimeFormat(
+        "sq-AL",
+        {
+            timeZone: TZ_AL,
+
+            hour: "2-digit",
+
+            minute: "2-digit",
+
+            ...(withSeconds
+                ? { second: "2-digit" }
+                : {}),
+
+            hour12: false
+        }
+    ).format(date);
+
+}
+
+
+
+function dateAL() {
+
+    return new Intl.DateTimeFormat(
+        "sq-AL",
+        {
+            timeZone: TZ_AL,
+
+            weekday: "long",
+
+            day: "numeric",
+
+            month: "long",
+
+            year: "numeric"
+        }
+    ).format(new Date());
+
+}
+
+
+
+function alRange(
+    start,
+    end
+) {
+
+    return (
+        fmtAL(start)
+        +
+        "–"
+        +
+        fmtAL(end)
+    );
+
+}
+
+
+
+function buildTimes() {
+
+    const d =
+        todayParts();
+
+
+    const out = [];
+
+
+    for (const s of sessions) {
+
+        const start =
+            zonedTimeToUTC(
+                d.y,
+                d.m,
+                d.d,
+                s.open,
+                0,
+                s.zone
+            );
+
+
+        const end =
+            zonedTimeToUTC(
+                d.y,
+                d.m,
+                d.d,
+                s.close,
+                0,
+                s.zone
+            );
+
+
+        out.push({
+
+            ...s,
+
+            start,
+
+            end
+
+        });
+
+    }
+
+
+    return out;
+
+}
+
+
+
+function overlapRange(times) {
+
+    const london =
+        times.find(
+            x => x.id === "london"
+        );
+
+
+    const ny =
+        times.find(
+            x => x.id === "ny"
+        );
+
+
+    const start =
+        Math.max(
+            london.start.getTime(),
+            ny.start.getTime()
+        );
+
+
+    const end =
+        Math.min(
+            london.end.getTime(),
+            ny.end.getTime()
+        );
+
+
+    return {
+
+        start: new Date(start),
+
+        end: new Date(end)
+
+    };
+
+}
+
+
+
+function activeSessions(
+    times,
+    now
+) {
+
+    return times.filter(
+        s =>
+            now >= s.start &&
+            now < s.end
+    );
+
+}
+
+
+
+function sessionLabel(active) {
+
+    if (!active.length) {
+
+        return "🌙 JASHTË SESIONEVE KRYESORE";
+
+    }
+
+
+    if (active.length === 2) {
+
+        return "🔥 LONDON + NEW YORK";
+
+    }
+
+
+    return active[0].name;
+
+}
+
+
+
+function uniquePairs(active) {
+
+    const seen =
+        new Set();
+
+    const out = [];
+
+
+    for (const s of active) {
+
+        for (const p of s.pairs) {
+
+            if (!seen.has(p)) {
+
+                seen.add(p);
+
+                out.push(p);
+
+            }
+
+        }
+
+    }
+
+
+    return out;
+
+}
+
+
+
+function render() {
+
+    const now =
+        new Date();
+
+
+    const times =
+        buildTimes();
+
+
+    const active =
+        activeSessions(
+            times,
+            now
+        );
+
+
+    document.getElementById(
+        "clock"
+    ).textContent =
+        fmtAL(
+            now,
+            true
+        );
+
+
+    document.getElementById(
+        "date"
+    ).textContent =
+        dateAL();
+
+
+    document.getElementById(
+        "current"
+    ).textContent =
+        sessionLabel(
+            active
+        );
+
+
+    const ov =
+        overlapRange(
+            times
+        );
+
+
+    const byId =
+        id =>
+            times.find(
+                x => x.id === id
+            );
+
+
+    const cards = [
+
+        {
+            name: "🌏 ASIA / TOKYO",
+
+            range:
+                alRange(
+                    byId("asia").start,
+                    byId("asia").end
+                ),
+
+            pairs:
+                byId("asia").pairs,
+
+            active:
+                active.some(
+                    x => x.id === "asia"
+                )
+        },
+
+
+        {
+            name: "🇬🇧 LONDON",
+
+            range:
+                alRange(
+                    byId("london").start,
+                    byId("london").end
+                ),
+
+            pairs:
+                byId("london").pairs,
+
+            active:
+                active.some(
+                    x => x.id === "london"
+                )
+        },
+
+
+        {
+            name:
+                "🔥 LONDON + NEW YORK",
+
+            range:
+                alRange(
+                    ov.start,
+                    ov.end
+                ),
+
+            pairs: [
+
+                "EURUSD",
+                "GBPUSD",
+                "GBPJPY",
+                "USDCHF",
+                "USDJPY",
+                "XAUUSD",
+                "USDCAD"
+
+            ],
+
+            active:
+                now >= ov.start &&
+                now < ov.end
+        },
+
+
+        {
+            name:
+                "🇺🇸 NEW YORK",
+
+            range:
+                alRange(
+                    byId("ny").start,
+                    byId("ny").end
+                ),
+
+            pairs:
+                byId("ny").pairs,
+
+            active:
+                active.some(
+                    x => x.id === "ny"
+                )
+        }
+
+    ];
+
+
+    document.getElementById(
+        "sessions"
+    ).innerHTML =
+
+        cards.map(
+            c => `
+
+            <div class="card ${c.active ? "active" : ""}">
+
+                <div class="card-head">
+
+                    <div>
+
+                        <div class="session-name">
+                            ${c.name}
+                        </div>
+
+                        <div class="hours">
+                            ${c.range}
+                            · Ora Shqipëri
+                        </div>
+
+                    </div>
+
+
+                    <div class="badge ${c.active ? "now" : ""}">
+
+                        ${c.active ? "TANI" : "SESION"}
+
+                    </div>
+
+                </div>
+
+
+                <div class="pairs">
+
+                    ${
+                        c.pairs.map(
+                            p =>
+                                `<span class="pair">
+                                    ${p}
+                                </span>`
+                        ).join("")
+                    }
+
+                </div>
+
+            </div>
+
+            `
+        ).join("");
+
+
+    const tl =
+        document.getElementById(
+            "timeline"
+        );
+
+
+    tl.innerHTML = "";
+
+
+    const day =
+        todayParts();
+
+
+    for (
+        let h = 0;
+        h < 24;
+        h++
+    ) {
+
+        const start =
+            zonedTimeToUTC(
+                day.y,
+                day.m,
+                day.d,
+                h,
+                0,
+                TZ_AL
+            );
+
+
+        const end =
+            new Date(
+                start.getTime()
+                +
+                3600000
+            );
+
+
+        const act =
+            activeSessions(
+                times,
+                start
+            );
+
+
+        const names =
+            sessionLabel(
+                act
+            );
+
+
+        const ps =
+            uniquePairs(
+                act
+            );
+
+
+        const isNow =
+            now >= start &&
+            now < end;
+
+
+        tl.innerHTML += `
+
+            <div class="hour ${isNow ? "active" : ""}">
+
+                <div class="hourtop">
+
+                    <div>
+
+                        <div class="h">
+
+                            ${String(h).padStart(2, "0")}:00
+                            –
+                            ${String((h + 1) % 24).padStart(2, "0")}:00
+
+                        </div>
+
+                        <div class="s">
+
+                            ${names}
+
+                        </div>
+
+                    </div>
+
+
+                    ${
+                        isNow
+                        ?
+                        '<div class="now">TANI</div>'
+                        :
+                        ''
+                    }
+
+                </div>
+
+
+                ${
+                    ps.length
+
+                    ?
+
+                    `
+                    <div class="hpairs">
+
+                        ${
+                            ps.map(
+                                p =>
+                                    `<span class="hp">
+                                        ${p}
+                                    </span>`
+                            ).join("")
+                        }
+
+                    </div>
+                    `
+
+                    :
+
+                    `
+                    <div
+                        class="s"
+                        style="margin-top:8px"
+                    >
+                        Nuk ka sesion kryesor.
+                    </div>
+                    `
+                }
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+
+render();
+
 
 setInterval(
-update,
-1000
+    render,
+    1000
 );
 
 </script>
