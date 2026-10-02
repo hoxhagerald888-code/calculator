@@ -4,293 +4,1051 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>FTMO Lot Size Calculator</title>
+
 <style>
 *{box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:#101827;color:#fff;margin:0;padding:20px}
-.app{max-width:520px;margin:auto;background:#182338;padding:20px;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
-h1{text-align:center;font-size:24px;margin:2px 0 20px}
-label{display:block;margin-top:14px;margin-bottom:6px;color:#b8c4d6;font-size:14px;font-weight:600}
-input,select{width:100%;padding:13px;font-size:17px;border-radius:8px;border:1px solid #40506a;background:#0e1727;color:#fff;outline:none}
-.input-wrap{position:relative;width:100%}
-.input-wrap input{padding-right:52px}
-.decimal-btn{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:38px;height:36px;margin:0;padding:0;border:1px solid #40506a;border-radius:7px;background:#24344f;color:#fff;font-size:20px;font-weight:700;line-height:1;cursor:pointer;-webkit-appearance:none;appearance:none}
-.decimal-btn:active{background:#315074;transform:translateY(-50%) scale(.97)}
 
-input:focus,select:focus{border-color:#268cff}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.dir{display:flex;gap:10px}
-.dir label{flex:1;text-align:center;background:#0e1727;padding:14px;border-radius:8px;border:1px solid #40506a;cursor:pointer;margin:0}
-.dir input{display:none}
-.dir input:checked+label{background:#17683f;border-color:#35d58b}
-button{width:100%;margin-top:18px;padding:15px;border:0;border-radius:8px;background:#268cff;color:#fff;font-size:17px;font-weight:bold;cursor:pointer}
-button:active{transform:scale(.99)}
-.clear-btn{background:#34445d;margin-top:10px}
-.clear-btn:active{background:#405575}
-.result{margin-top:20px;background:#0e1727;padding:18px;border-radius:10px;text-align:center}
-.lot{font-size:42px;font-weight:800;color:#45df96;margin-top:4px}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-.stat{background:#1d2a41;padding:12px;border-radius:8px;text-align:left;min-height:62px}
-.stat span{display:block;color:#9eabc0;font-size:11px;margin-bottom:5px}
-.stat b{font-size:15px}
-.error{display:none;background:#632a31;color:#fff;padding:12px;margin-top:12px;border-radius:8px;line-height:1.4}
-.note{font-size:11px;color:#8997aa;margin-top:14px;line-height:1.5}
-.spec{font-size:10px;color:#6f7d92;margin-top:8px;line-height:1.4}
-@media(max-width:380px){body{padding:12px}.app{padding:16px}.row{grid-template-columns:1fr}.lot{font-size:38px}}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  background:#101827;
+  color:#fff;
+  margin:0;
+  padding:20px
+}
+
+.app{
+  max-width:520px;
+  margin:auto;
+  background:#182338;
+  padding:20px;
+  border-radius:15px;
+  box-shadow:0 10px 30px rgba(0,0,0,.25)
+}
+
+h1{
+  text-align:center;
+  font-size:24px;
+  margin:2px 0 20px
+}
+
+label{
+  display:block;
+  margin-top:14px;
+  margin-bottom:6px;
+  color:#b8c4d6;
+  font-size:14px;
+  font-weight:600
+}
+
+input,select{
+  width:100%;
+  padding:13px;
+  font-size:17px;
+  border-radius:8px;
+  border:1px solid #40506a;
+  background:#0e1727;
+  color:#fff;
+  outline:none
+}
+
+.input-wrap{
+  position:relative;
+  width:100%
+}
+
+.input-wrap input{
+  padding-right:52px
+}
+
+.decimal-btn{
+  position:absolute;
+  right:6px;
+  top:50%;
+  transform:translateY(-50%);
+  width:38px;
+  height:36px;
+  margin:0;
+  padding:0;
+  border:1px solid #40506a;
+  border-radius:7px;
+  background:#24344f;
+  color:#fff;
+  font-size:20px;
+  font-weight:700;
+  line-height:1;
+  cursor:pointer;
+  -webkit-appearance:none;
+  appearance:none
+}
+
+.decimal-btn:active{
+  background:#315074;
+  transform:translateY(-50%) scale(.97)
+}
+
+input:focus,select:focus{
+  border-color:#268cff
+}
+
+.row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px
+}
+
+.dir{
+  display:flex;
+  gap:10px
+}
+
+.dir label{
+  flex:1;
+  text-align:center;
+  background:#0e1727;
+  padding:14px;
+  border-radius:8px;
+  border:1px solid #40506a;
+  cursor:pointer;
+  margin:0
+}
+
+.dir input{
+  display:none
+}
+
+.dir input:checked+label{
+  background:#17683f;
+  border-color:#35d58b
+}
+
+button{
+  width:100%;
+  margin-top:18px;
+  padding:15px;
+  border:0;
+  border-radius:8px;
+  background:#268cff;
+  color:#fff;
+  font-size:17px;
+  font-weight:bold;
+  cursor:pointer
+}
+
+button:active{
+  transform:scale(.99)
+}
+
+.clear-btn{
+  background:#34445d;
+  margin-top:10px
+}
+
+.clear-btn:active{
+  background:#405575
+}
+
+.timezone-btn{
+  display:block;
+  width:100%;
+  margin-top:10px;
+  padding:15px;
+  border:1px solid #4da3ff;
+  border-radius:8px;
+  background:#24344f;
+  color:#fff;
+  font-size:17px;
+  font-weight:bold;
+  text-align:center;
+  text-decoration:none;
+  cursor:pointer
+}
+
+.timezone-btn:active{
+  transform:scale(.99);
+  background:#315074
+}
+
+.result{
+  margin-top:20px;
+  background:#0e1727;
+  padding:18px;
+  border-radius:10px;
+  text-align:center
+}
+
+.lot{
+  font-size:42px;
+  font-weight:800;
+  color:#45df96;
+  margin-top:4px
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:12px
+}
+
+.stat{
+  background:#1d2a41;
+  padding:12px;
+  border-radius:8px;
+  text-align:left;
+  min-height:62px
+}
+
+.stat span{
+  display:block;
+  color:#9eabc0;
+  font-size:11px;
+  margin-bottom:5px
+}
+
+.stat b{
+  font-size:15px
+}
+
+.error{
+  display:none;
+  background:#632a31;
+  color:#fff;
+  padding:12px;
+  margin-top:12px;
+  border-radius:8px;
+  line-height:1.4
+}
+
+.note{
+  font-size:11px;
+  color:#8997aa;
+  margin-top:14px;
+  line-height:1.5
+}
+
+.spec{
+  font-size:10px;
+  color:#6f7d92;
+  margin-top:8px;
+  line-height:1.4
+}
+
+@media(max-width:380px){
+  body{padding:12px}
+  .app{padding:16px}
+  .row{grid-template-columns:1fr}
+  .lot{font-size:38px}
+}
 </style>
 </head>
+
 <body>
+
 <div class="app">
+
 <h1>FTMO Lot Size Calculator</h1>
 
 <form id="calculator">
+
 <label>PAIR</label>
+
 <select id="pair">
 <option value="EURUSD">EURUSD</option>
 <option value="GBPUSD">GBPUSD</option>
 <option value="USDJPY">USDJPY</option>
 <option value="XAUUSD">XAUUSD</option>
+<option value="USDCAD">USDCAD</option>
+<option value="AUDUSD">AUDUSD</option>
+<option value="USDCHF">USDCHF</option>
+<option value="GBPJPY">GBPJPY</option>
 </select>
 
 <label>DIRECTION</label>
+
 <div class="dir">
+
 <input type="radio" id="buy" name="direction" value="BUY" checked>
 <label for="buy">BUY</label>
+
 <input type="radio" id="sell" name="direction" value="SELL">
 <label for="sell">SELL</label>
+
 </div>
 
 <div class="row">
+
 <div>
 <label>ENTRY</label>
-<div class="input-wrap"><input id="entry" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="next" placeholder="1.17500"><button type="button" class="decimal-btn" data-target="entry">.</button></div>
+
+<div class="input-wrap">
+<input
+id="entry"
+type="text"
+inputmode="decimal"
+autocomplete="off"
+enterkeyhint="next"
+placeholder="1.17500">
+
+<button
+type="button"
+class="decimal-btn"
+data-target="entry">.</button>
 </div>
+
+</div>
+
 <div>
+
 <label>STOP LOSS</label>
-<div class="input-wrap"><input id="sl" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="next" placeholder="1.17000"><button type="button" class="decimal-btn" data-target="sl">.</button></div>
+
+<div class="input-wrap">
+
+<input
+id="sl"
+type="text"
+inputmode="decimal"
+autocomplete="off"
+enterkeyhint="next"
+placeholder="1.17000">
+
+<button
+type="button"
+class="decimal-btn"
+data-target="sl">.</button>
+
 </div>
+
+</div>
+
 </div>
 
 <div class="row">
+
 <div>
+
 <label>TAKE PROFIT</label>
-<div class="input-wrap"><input id="tp" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="next" placeholder="1.18500"><button type="button" class="decimal-btn" data-target="tp">.</button></div>
-</div>
-<div>
-<label>RISK ($)</label>
-<div class="input-wrap"><input id="risk" type="text" inputmode="decimal" autocomplete="off" enterkeyhint="done" placeholder="100"><button type="button" class="decimal-btn" data-target="risk">.</button></div>
-</div>
+
+<div class="input-wrap">
+
+<input
+id="tp"
+type="text"
+inputmode="decimal"
+autocomplete="off"
+enterkeyhint="next"
+placeholder="1.18500">
+
+<button
+type="button"
+class="decimal-btn"
+data-target="tp">.</button>
+
 </div>
 
-<button type="submit">LLOGARIT LOT SIZE</button>
-<button type="button" id="clearBtn" class="clear-btn">CLEAR / PASTRO</button>
+</div>
+
+<div>
+
+<label>RISK ($)</label>
+
+<div class="input-wrap">
+
+<input
+id="risk"
+type="text"
+inputmode="decimal"
+autocomplete="off"
+enterkeyhint="done"
+placeholder="100">
+
+<button
+type="button"
+class="decimal-btn"
+data-target="risk">.</button>
+
+</div>
+
+</div>
+
+</div>
+
+<div id="conversionBox" style="display:none">
+
+<label>USDJPY RATE (për GBPJPY)</label>
+
+<div class="input-wrap">
+
+<input
+id="usdJpyRate"
+type="text"
+inputmode="decimal"
+autocomplete="off"
+placeholder="157.00">
+
+<button
+type="button"
+class="decimal-btn"
+data-target="usdJpyRate">.</button>
+
+</div>
+
+</div>
+
+<button type="submit">
+LLOGARIT LOT SIZE
+</button>
+
+<button
+type="button"
+id="clearBtn"
+class="clear-btn">
+CLEAR / PASTRO
+</button>
+
+<a
+href="timezone.html"
+class="timezone-btn">
+🌍 TIMEZONE
+</a>
+
 </form>
 
 <div id="error" class="error"></div>
 
 <div class="result">
+
 <div>LOT SIZE</div>
+
 <div id="lot" class="lot">—</div>
 
 <div class="stats">
-<div class="stat"><span>RISK REAL</span><b id="riskResult">—</b></div>
-<div class="stat"><span>PROFIT NË TP</span><b id="profitResult">—</b></div>
-<div class="stat"><span>R:R</span><b id="rrResult">—</b></div>
-<div class="stat"><span>SL DISTANCE</span><b id="distanceResult">—</b></div>
-<div class="stat"><span>COMMISSION ROUND-TRIP</span><b id="commissionResult">—</b></div>
-<div class="stat"><span>RISK PA KOMISION</span><b id="rawRiskResult">—</b></div>
+
+<div class="stat">
+<span>RISK REAL</span>
+<b id="riskResult">—</b>
+</div>
+
+<div class="stat">
+<span>PROFIT NË TP</span>
+<b id="profitResult">—</b>
+</div>
+
+<div class="stat">
+<span>R:R</span>
+<b id="rrResult">—</b>
+</div>
+
+<div class="stat">
+<span>SL DISTANCE</span>
+<b id="distanceResult">—</b>
+</div>
+
+<div class="stat">
+<span>COMMISSION ROUND-TRIP</span>
+<b id="commissionResult">—</b>
+</div>
+
+<div class="stat">
+<span>RISK PA KOMISION</span>
+<b id="rawRiskResult">—</b>
+</div>
+
 </div>
 </div>
 
 <div class="note">
-Llogaritja përdor specifikat që më dërgove nga MetaTrader: EURUSD/GBPUSD/USDJPY = 100,000 njësi, volume step 0.01 dhe $2.50/lot për anë; XAUUSD = 100 oz, volume step 0.01 dhe 0.0007% për anë. Loti rrumbullakohet gjithmonë POSHTË në hapin 0.01.
+
+Llogaritja përdor specifikat nga MetaTrader:
+EURUSD, GBPUSD, USDJPY, USDCAD, AUDUSD, USDCHF dhe GBPJPY
+= 100,000 njësi, volume step 0.01 dhe $2.50/lot për anë.
+
+XAUUSD = 100 oz, volume step 0.01 dhe 0.0007% për anë.
+
+Loti rrumbullakohet gjithmonë POSHTË në hapin 0.01.
+
 </div>
-<div class="spec">Nuk përfshihen spread-i floating, slippage ose swap-i. Risku real i ekzekutimit mund të ndryshojë pak nga kalkulimi teorik.</div>
+
+<div class="spec">
+
+Nuk përfshihen spread-i floating, slippage ose swap-i.
+
+</div>
+
 </div>
 
 <script>
+
 const SPECS = {
-  EURUSD: { contract: 100000, type: 'forex', min: 0.01, max: 50, step: 0.01, commissionSide: 2.50 },
-  GBPUSD: { contract: 100000, type: 'forex', min: 0.01, max: 50, step: 0.01, commissionSide: 2.50 },
-  USDJPY: { contract: 100000, type: 'usdjpy', min: 0.01, max: 50, step: 0.01, commissionSide: 2.50 },
-  XAUUSD: { contract: 100, type: 'gold', min: 0.01, max: 100, step: 0.01, commissionRateSide: 0.000007 }
+
+EURUSD:{
+contract:100000,
+type:'forex',
+min:0.01,
+max:50,
+step:0.01,
+commissionSide:2.50
+},
+
+GBPUSD:{
+contract:100000,
+type:'forex',
+min:0.01,
+max:50,
+step:0.01,
+commissionSide:2.50
+},
+
+AUDUSD:{
+contract:100000,
+type:'forex',
+min:0.01,
+max:50,
+step:0.01,
+commissionSide:2.50
+},
+
+USDJPY:{
+contract:100000,
+type:'usdjpy',
+min:0.01,
+max:50,
+step:0.01,
+commissionSide:2.50
+},
+
+USDCAD:{
+contract:100000,
+type:'usdcad',
+min:0.01,
+max:50,
+step:0.01,
+commissionSide:2.50
+},
+
+USDCHF:{
+contract:100000,
+type:'usdchf',
+min:0.01,
+max:50,
+step:0.01,
+commissionSide:2.50
+},
+
+GBPJPY:{
+contract:100000,
+type:'gbpjpy',
+min:0.01,
+max:50,
+step:0.01,
+commissionSide:2.50
+},
+
+XAUUSD:{
+contract:100,
+type:'gold',
+min:0.01,
+max:100,
+step:0.01,
+commissionRateSide:0.000007
+}
+
 };
 
-document.getElementById('calculator').addEventListener('submit', function(e){
-  e.preventDefault();
-  calculate();
+document
+.getElementById('calculator')
+.addEventListener('submit',function(e){
+
+e.preventDefault();
+
+calculate();
+
 });
 
-document.getElementById('clearBtn').addEventListener('click', function(){
-  ['entry','sl','tp','risk'].forEach(id => {
-    document.getElementById(id).value = '';
-  });
+document
+.getElementById('clearBtn')
+.addEventListener('click',function(){
 
-  document.getElementById('buy').checked = true;
-  document.getElementById('pair').value = 'EURUSD';
+[
+'entry',
+'sl',
+'tp',
+'risk',
+'usdJpyRate'
+].forEach(id=>{
 
-  const error = document.getElementById('error');
-  error.textContent = '';
-  error.style.display = 'none';
+document.getElementById(id).value='';
 
-  resetResults();
-
-  // Put the cursor back in Entry so the next trade can be entered immediately.
-  document.getElementById('entry').focus();
 });
 
-document.getElementById('pair').addEventListener('change', function(){
-  // Clear stale result when changing instrument.
-  resetResults();
+document.getElementById('buy').checked=true;
+
+document.getElementById('pair').value='EURUSD';
+
+document.getElementById('error').textContent='';
+
+document.getElementById('error').style.display='none';
+
+resetResults();
+
+document.getElementById('entry').focus();
+
 });
 
-// iPhone-safe decimal entry:
-// These fields are text inputs so iOS never blocks "." or ",".
-// A dedicated "." button is also provided because some iPhone keyboards
-// hide the decimal key depending on the keyboard/region settings.
-['entry','sl','tp','risk'].forEach(id => {
-  const input = document.getElementById(id);
+function updateConversionBox(){
 
-  input.addEventListener('input', () => {
-    // Keep only digits and decimal separators.
-    input.value = input.value.replace(/[^0-9.,]/g, '');
-    // Keep the first decimal separator only.
-    const firstSep = input.value.search(/[.,]/);
-    if(firstSep !== -1){
-      const before = input.value.slice(0, firstSep + 1);
-      const after = input.value.slice(firstSep + 1).replace(/[.,]/g, '');
-      input.value = before + after;
-    }
-  });
+document.getElementById('conversionBox').style.display=
+
+document.getElementById('pair').value==='GBPJPY'
+?'block'
+:'none';
+
+}
+
+updateConversionBox();
+
+document
+.getElementById('pair')
+.addEventListener('change',function(){
+
+resetResults();
+
+updateConversionBox();
+
 });
 
-document.querySelectorAll('.decimal-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const input = document.getElementById(btn.dataset.target);
-    const value = input.value;
-    if(!/[.,]/.test(value)){
-      input.value = value + '.';
-    }
-    input.focus();
-    try {
-      const pos = input.value.length;
-      input.setSelectionRange(pos, pos);
-    } catch(e) {}
-  });
+[
+'entry',
+'sl',
+'tp',
+'risk',
+'usdJpyRate'
+].forEach(id=>{
+
+const input=document.getElementById(id);
+
+input.addEventListener('input',()=>{
+
+input.value=input.value.replace(
+/[^0-9.,]/g,
+''
+);
+
+const firstSep=input.value.search(/[.,]/);
+
+if(firstSep!==-1){
+
+const before=
+input.value.slice(
+0,
+firstSep+1
+);
+
+const after=
+input.value
+.slice(firstSep+1)
+.replace(/[.,]/g,'');
+
+input.value=before+after;
+
+}
+
+});
+
+});
+
+document
+.querySelectorAll('.decimal-btn')
+.forEach(btn=>{
+
+btn.addEventListener('click',()=>{
+
+const input=
+document.getElementById(
+btn.dataset.target
+);
+
+if(!/[.,]/.test(input.value)){
+
+input.value=input.value+'.';
+
+}
+
+input.focus();
+
+try{
+
+const pos=input.value.length;
+
+input.setSelectionRange(
+pos,
+pos
+);
+
+}catch(e){}
+
+});
+
 });
 
 function calculate(){
-  const error = document.getElementById('error');
-  error.style.display = 'none';
 
-  const pair = document.getElementById('pair').value;
-  // iPhone/Safari can use either comma or dot as decimal separator.
-  // Read text inputs and normalize comma -> dot before parsing.
-  const toNumber = (id) => {
-    const value = document.getElementById(id).value.trim().replace(/,/g, '.');
-    return value === '' ? NaN : Number(value);
-  };
-  const entry = toNumber('entry');
-  const sl = toNumber('sl');
-  const tp = toNumber('tp');
-  const risk = toNumber('risk');
-  const buy = document.getElementById('buy').checked;
-  const spec = SPECS[pair];
+const error=
+document.getElementById('error');
 
-  if(!Number.isFinite(entry) || !Number.isFinite(sl) || !Number.isFinite(tp) || !Number.isFinite(risk) || risk <= 0){
-    return showError('Plotëso Entry, Stop Loss, Take Profit dhe Risk.');
-  }
-  if(entry <= 0 || sl <= 0 || tp <= 0){
-    return showError('Entry, Stop Loss dhe Take Profit duhet të jenë më të mëdha se 0.');
-  }
+error.style.display='none';
 
-  if(buy && sl >= entry) return showError('BUY: Stop Loss duhet të jetë më i ulët se Entry.');
-  if(buy && tp <= entry) return showError('BUY: Take Profit duhet të jetë më i lartë se Entry.');
-  if(!buy && sl <= entry) return showError('SELL: Stop Loss duhet të jetë më i lartë se Entry.');
-  if(!buy && tp >= entry) return showError('SELL: Take Profit duhet të jetë më i ulët se Entry.');
+const pair=
+document.getElementById('pair').value;
 
-  const slDistance = Math.abs(entry - sl);
-  const tpDistance = Math.abs(tp - entry);
+function toNumber(id){
 
-  let lossPerLot = 0;
-  let profitPerLot = 0;
-  let commissionPerLotAtSL = 0;
-  let commissionPerLotAtTP = 0;
+const value=
+document
+.getElementById(id)
+.value
+.trim()
+.replace(/,/g,'.');
 
-  if(spec.type === 'forex'){
-    // EURUSD / GBPUSD: profit currency is USD.
-    lossPerLot = slDistance * spec.contract;
-    profitPerLot = tpDistance * spec.contract;
-    commissionPerLotAtSL = spec.commissionSide * 2;
-    commissionPerLotAtTP = spec.commissionSide * 2;
-  }
+return value===''?
+NaN:
+Number(value);
 
-  if(spec.type === 'usdjpy'){
-    // USDJPY: P/L is generated in JPY and converted to USD.
-    // For a more precise theoretical calculation, use the price at which
-    // the P/L is realized: SL for loss and TP for profit.
-    lossPerLot = (slDistance * spec.contract) / entry;
-    profitPerLot = (tpDistance * spec.contract) / entry;
-    commissionPerLotAtSL = spec.commissionSide * 2;
-    commissionPerLotAtTP = spec.commissionSide * 2;
-  }
+}
 
-  if(spec.type === 'gold'){
-    // XAUUSD: 100 oz/lot and USD profit currency.
-    lossPerLot = slDistance * spec.contract;
-    profitPerLot = tpDistance * spec.contract;
-    // MT5 shows 0.0007% per side. Use entry for opening commission
-    // and SL/TP price for closing commission.
-    commissionPerLotAtSL = (entry * spec.contract * spec.commissionRateSide) + (sl * spec.contract * spec.commissionRateSide);
-    commissionPerLotAtTP = (entry * spec.contract * spec.commissionRateSide) + (tp * spec.contract * spec.commissionRateSide);
-  }
+const entry=toNumber('entry');
+const sl=toNumber('sl');
+const tp=toNumber('tp');
+const risk=toNumber('risk');
 
-  const riskPerLot = lossPerLot + commissionPerLotAtSL;
-  const rawLot = risk / riskPerLot;
+const buy=
+document.getElementById('buy').checked;
 
-  // Round DOWN to the broker's 0.01 volume step.
-  const lot = Math.floor((rawLot / spec.step) + 1e-10) * spec.step;
-  const roundedLot = Number(lot.toFixed(2));
+const spec=SPECS[pair];
 
-  if(roundedLot < spec.min){
-    return showError('Risku është shumë i vogël për 0.01 lot me këtë Stop Loss.');
-  }
-  if(roundedLot > spec.max){
-    return showError('Lot Size del mbi maksimumin e simbolit (' + spec.max.toFixed(2) + ' lot).');
-  }
+if(
+!Number.isFinite(entry) ||
+!Number.isFinite(sl) ||
+!Number.isFinite(tp) ||
+!Number.isFinite(risk) ||
+risk<=0
+){
 
-  const actualRisk = riskPerLot * roundedLot;
-  const profit = (profitPerLot - commissionPerLotAtTP) * roundedLot;
-  const rr = profit / actualRisk;
-  const commissionDisplay = commissionPerLotAtSL * roundedLot;
-  const rawRisk = lossPerLot * roundedLot;
+return showError(
+'Plotëso Entry, Stop Loss, Take Profit dhe Risk.'
+);
 
-  document.getElementById('lot').textContent = roundedLot.toFixed(2);
-  document.getElementById('riskResult').textContent = '$' + actualRisk.toFixed(2);
-  document.getElementById('profitResult').textContent = '$' + profit.toFixed(2);
-  document.getElementById('rrResult').textContent = '1 : ' + rr.toFixed(2);
-  document.getElementById('commissionResult').textContent = '$' + commissionDisplay.toFixed(2);
-  document.getElementById('rawRiskResult').textContent = '$' + rawRisk.toFixed(2);
+}
 
-  const digits = pair === 'EURUSD' || pair === 'GBPUSD' ? 5 : pair === 'USDJPY' ? 3 : 2;
-  document.getElementById('distanceResult').textContent = slDistance.toFixed(digits);
+if(entry<=0 || sl<=0 || tp<=0){
+
+return showError(
+'Entry, Stop Loss dhe Take Profit duhet të jenë më të mëdha se 0.'
+);
+
+}
+
+if(buy && sl>=entry){
+
+return showError(
+'BUY: Stop Loss duhet të jetë më i ulët se Entry.'
+);
+
+}
+
+if(buy && tp<=entry){
+
+return showError(
+'BUY: Take Profit duhet të jetë më i lartë se Entry.'
+);
+
+}
+
+if(!buy && sl<=entry){
+
+return showError(
+'SELL: Stop Loss duhet të jetë më i lartë se Entry.'
+);
+
+}
+
+if(!buy && tp>=entry){
+
+return showError(
+'SELL: Take Profit duhet të jetë më i ulët se Entry.'
+);
+
+}
+
+const slDistance=
+Math.abs(entry-sl);
+
+const tpDistance=
+Math.abs(tp-entry);
+
+let lossPerLot=0;
+let profitPerLot=0;
+
+let commissionPerLotAtSL=0;
+let commissionPerLotAtTP=0;
+
+if(spec.type==='forex'){
+
+lossPerLot=
+slDistance*spec.contract;
+
+profitPerLot=
+tpDistance*spec.contract;
+
+commissionPerLotAtSL=
+spec.commissionSide*2;
+
+commissionPerLotAtTP=
+spec.commissionSide*2;
+
+}
+
+if(spec.type==='usdjpy'){
+
+lossPerLot=
+(slDistance*spec.contract)/entry;
+
+profitPerLot=
+(tpDistance*spec.contract)/entry;
+
+commissionPerLotAtSL=
+spec.commissionSide*2;
+
+commissionPerLotAtTP=
+spec.commissionSide*2;
+
+}
+
+if(spec.type==='usdcad'){
+
+lossPerLot=
+(slDistance*spec.contract)/entry;
+
+profitPerLot=
+(tpDistance*spec.contract)/entry;
+
+commissionPerLotAtSL=
+spec.commissionSide*2;
+
+commissionPerLotAtTP=
+spec.commissionSide*2;
+
+}
+
+if(spec.type==='usdchf'){
+
+lossPerLot=
+(slDistance*spec.contract)/entry;
+
+profitPerLot=
+(tpDistance*spec.contract)/entry;
+
+commissionPerLotAtSL=
+spec.commissionSide*2;
+
+commissionPerLotAtTP=
+spec.commissionSide*2;
+
+}
+
+if(spec.type==='gbpjpy'){
+
+const usdJpyRate=
+toNumber('usdJpyRate');
+
+if(
+!Number.isFinite(usdJpyRate) ||
+usdJpyRate<=0
+){
+
+return showError(
+'GBPJPY: vendos USDJPY Rate për konvertimin JPY → USD.'
+);
+
+}
+
+lossPerLot=
+(slDistance*spec.contract)/
+usdJpyRate;
+
+profitPerLot=
+(tpDistance*spec.contract)/
+usdJpyRate;
+
+commissionPerLotAtSL=
+spec.commissionSide*2;
+
+commissionPerLotAtTP=
+spec.commissionSide*2;
+
+}
+
+if(spec.type==='gold'){
+
+lossPerLot=
+slDistance*spec.contract;
+
+profitPerLot=
+tpDistance*spec.contract;
+
+commissionPerLotAtSL=
+(entry*spec.contract*
+spec.commissionRateSide)+
+(sl*spec.contract*
+spec.commissionRateSide);
+
+commissionPerLotAtTP=
+(entry*spec.contract*
+spec.commissionRateSide)+
+(tp*spec.contract*
+spec.commissionRateSide);
+
+}
+
+const riskPerLot=
+lossPerLot+
+commissionPerLotAtSL;
+
+const rawLot=
+risk/riskPerLot;
+
+const lot=
+Math.floor(
+(rawLot/spec.step)+
+1e-10
+)*spec.step;
+
+const roundedLot=
+Number(lot.toFixed(2));
+
+if(roundedLot<spec.min){
+
+return showError(
+'Risku është shumë i vogël për 0.01 lot me këtë Stop Loss.'
+);
+
+}
+
+if(roundedLot>spec.max){
+
+return showError(
+'Lot Size del mbi maksimumin e simbolit ('+
+spec.max.toFixed(2)+
+' lot).'
+);
+
+}
+
+const actualRisk=
+riskPerLot*
+roundedLot;
+
+const profit=
+(profitPerLot-
+commissionPerLotAtTP)*
+roundedLot;
+
+const rr=
+profit/actualRisk;
+
+const commissionDisplay=
+commissionPerLotAtSL*
+roundedLot;
+
+const rawRisk=
+lossPerLot*
+roundedLot;
+
+document.getElementById('lot')
+.textContent=
+roundedLot.toFixed(2);
+
+document.getElementById('riskResult')
+.textContent=
+'$'+actualRisk.toFixed(2);
+
+document.getElementById('profitResult')
+.textContent=
+'$'+profit.toFixed(2);
+
+document.getElementById('rrResult')
+.textContent=
+'1 : '+rr.toFixed(2);
+
+document.getElementById('commissionResult')
+.textContent=
+'$'+commissionDisplay.toFixed(2);
+
+document.getElementById('rawRiskResult')
+.textContent=
+'$'+rawRisk.toFixed(2);
+
+let digits=5;
+
+if(
+pair==='USDJPY' ||
+pair==='GBPJPY'
+){
+
+digits=3;
+
+}
+
+if(pair==='XAUUSD'){
+
+digits=2;
+
+}
+
+document.getElementById('distanceResult')
+.textContent=
+slDistance.toFixed(digits);
+
 }
 
 function showError(message){
-  const error = document.getElementById('error');
-  error.textContent = message;
-  error.style.display = 'block';
-  resetResults();
+
+const error=
+document.getElementById('error');
+
+error.textContent=message;
+
+error.style.display='block';
+
+resetResults();
+
 }
 
 function resetResults(){
-  document.getElementById('lot').textContent = '—';
-  document.getElementById('riskResult').textContent = '—';
-  document.getElementById('profitResult').textContent = '—';
-  document.getElementById('rrResult').textContent = '—';
-  document.getElementById('distanceResult').textContent = '—';
-  document.getElementById('commissionResult').textContent = '—';
-  document.getElementById('rawRiskResult').textContent = '—';
+
+document.getElementById('lot')
+.textContent='—';
+
+document.getElementById('riskResult')
+.textContent='—';
+
+document.getElementById('profitResult')
+.textContent='—';
+
+document.getElementById('rrResult')
+.textContent='—';
+
+document.getElementById('distanceResult')
+.textContent='—';
+
+document.getElementById('commissionResult')
+.textContent='—';
+
+document.getElementById('rawRiskResult')
+.textContent='—';
+
 }
+
 </script>
+
 </body>
 </html>
