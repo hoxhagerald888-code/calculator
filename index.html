@@ -7,237 +7,42 @@
 
 <style>
 *{box-sizing:border-box}
-
-body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
-  background:#101827;
-  color:#fff;
-  margin:0;
-  padding:20px
-}
-
-.app{
-  max-width:520px;
-  margin:auto;
-  background:#182338;
-  padding:20px;
-  border-radius:15px;
-  box-shadow:0 10px 30px rgba(0,0,0,.25)
-}
-
-h1{
-  text-align:center;
-  font-size:24px;
-  margin:2px 0 20px
-}
-
-label{
-  display:block;
-  margin-top:14px;
-  margin-bottom:6px;
-  color:#b8c4d6;
-  font-size:14px;
-  font-weight:600
-}
-
-input,select{
-  width:100%;
-  padding:13px;
-  font-size:17px;
-  border-radius:8px;
-  border:1px solid #40506a;
-  background:#0e1727;
-  color:#fff;
-  outline:none
-}
-
-.input-wrap{
-  position:relative;
-  width:100%
-}
-
-.input-wrap input{
-  padding-right:52px
-}
-
-.decimal-btn{
-  position:absolute;
-  right:6px;
-  top:50%;
-  transform:translateY(-50%);
-  width:38px;
-  height:36px;
-  margin:0;
-  padding:0;
-  border:1px solid #40506a;
-  border-radius:7px;
-  background:#24344f;
-  color:#fff;
-  font-size:20px;
-  font-weight:700;
-  line-height:1;
-  cursor:pointer;
-  -webkit-appearance:none;
-  appearance:none
-}
-
-.decimal-btn:active{
-  background:#315074;
-  transform:translateY(-50%) scale(.97)
-}
-
-input:focus,select:focus{
-  border-color:#268cff
-}
-
-.row{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px
-}
-
-.dir{
-  display:flex;
-  gap:10px
-}
-
-.dir label{
-  flex:1;
-  text-align:center;
-  background:#0e1727;
-  padding:14px;
-  border-radius:8px;
-  border:1px solid #40506a;
-  cursor:pointer;
-  margin:0
-}
-
-.dir input{
-  display:none
-}
-
-.dir input:checked+label{
-  background:#17683f;
-  border-color:#35d58b
-}
-
-button{
-  width:100%;
-  margin-top:18px;
-  padding:15px;
-  border:0;
-  border-radius:8px;
-  background:#268cff;
-  color:#fff;
-  font-size:17px;
-  font-weight:bold;
-  cursor:pointer
-}
-
-button:active{
-  transform:scale(.99)
-}
-
-.clear-btn{
-  background:#34445d;
-  margin-top:10px
-}
-
-.clear-btn:active{
-  background:#405575
-}
-
-.timezone-btn{
-  display:block;
-  width:100%;
-  margin-top:10px;
-  padding:15px;
-  border:1px solid #4da3ff;
-  border-radius:8px;
-  background:#24344f;
-  color:#fff;
-  font-size:17px;
-  font-weight:bold;
-  text-align:center;
-  text-decoration:none;
-  cursor:pointer
-}
-
-.timezone-btn:active{
-  transform:scale(.99);
-  background:#315074
-}
-
-.result{
-  margin-top:20px;
-  background:#0e1727;
-  padding:18px;
-  border-radius:10px;
-  text-align:center
-}
-
-.lot{
-  font-size:42px;
-  font-weight:800;
-  color:#45df96;
-  margin-top:4px
-}
-
-.stats{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-  margin-top:12px
-}
-
-.stat{
-  background:#1d2a41;
-  padding:12px;
-  border-radius:8px;
-  text-align:left;
-  min-height:62px
-}
-
-.stat span{
-  display:block;
-  color:#9eabc0;
-  font-size:11px;
-  margin-bottom:5px
-}
-
-.stat b{
-  font-size:15px
-}
-
-.error{
-  display:none;
-  background:#632a31;
-  color:#fff;
-  padding:12px;
-  margin-top:12px;
-  border-radius:8px;
-  line-height:1.4
-}
-
-.note{
-  font-size:11px;
-  color:#8997aa;
-  margin-top:14px;
-  line-height:1.5
-}
-
-.spec{
-  font-size:10px;
-  color:#6f7d92;
-  margin-top:8px;
-  line-height:1.4
-}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:#101827;color:#fff;margin:0;padding:20px}
+.app{max-width:520px;margin:auto;background:#182338;padding:20px;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+h1{text-align:center;font-size:24px;margin:2px 0 20px}
+label{display:block;margin-top:14px;margin-bottom:6px;color:#b8c4d6;font-size:14px;font-weight:600}
+input,select{width:100%;padding:13px;font-size:17px;border-radius:8px;border:1px solid #40506a;background:#0e1727;color:#fff;outline:none}
+.input-wrap{position:relative;width:100%}
+.input-wrap input{padding-right:52px}
+.decimal-btn{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:38px;height:36px;margin:0;padding:0;border:1px solid #40506a;border-radius:7px;background:#24344f;color:#fff;font-size:20px;font-weight:700;line-height:1;cursor:pointer;-webkit-appearance:none;appearance:none}
+.decimal-btn:active{background:#315074;transform:translateY(-50%) scale(.97)}
+input:focus,select:focus{border-color:#268cff}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.dir{display:flex;gap:10px}
+.dir label{flex:1;text-align:center;background:#0e1727;padding:14px;border-radius:8px;border:1px solid #40506a;cursor:pointer;margin:0}
+.dir input{display:none}
+.dir input:checked+label{background:#17683f;border-color:#35d58b}
+button{width:100%;margin-top:18px;padding:15px;border:0;border-radius:8px;background:#268cff;color:#fff;font-size:17px;font-weight:bold;cursor:pointer}
+button:active{transform:scale(.99)}
+.clear-btn{background:#34445d;margin-top:10px}
+.clear-btn:active{background:#405575}
+.timezone-btn{display:block;width:100%;margin-top:10px;padding:15px;border:1px solid #4da3ff;border-radius:8px;background:#24344f;color:#fff;font-size:17px;font-weight:bold;text-align:center;text-decoration:none;cursor:pointer}
+.timezone-btn:active{transform:scale(.99);background:#315074}
+.result{margin-top:20px;background:#0e1727;padding:18px;border-radius:10px;text-align:center}
+.lot{font-size:42px;font-weight:800;color:#45df96;margin-top:4px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.stat{background:#1d2a41;padding:12px;border-radius:8px;text-align:left;min-height:62px}
+.stat span{display:block;color:#9eabc0;font-size:11px;margin-bottom:5px}
+.stat b{font-size:15px}
+.error{display:none;background:#632a31;color:#fff;padding:12px;margin-top:12px;border-radius:8px;line-height:1.4}
+.note{font-size:11px;color:#8997aa;margin-top:14px;line-height:1.5}
+.spec{font-size:10px;color:#6f7d92;margin-top:8px;line-height:1.4}
 
 @media(max-width:380px){
-  body{padding:12px}
-  .app{padding:16px}
-  .row{grid-template-columns:1fr}
-  .lot{font-size:38px}
+body{padding:12px}
+.app{padding:16px}
+.row{grid-template-columns:1fr}
+.lot{font-size:38px}
 }
 </style>
 </head>
@@ -278,9 +83,11 @@ button:active{
 <div class="row">
 
 <div>
+
 <label>ENTRY</label>
 
 <div class="input-wrap">
+
 <input
 id="entry"
 type="text"
@@ -293,6 +100,7 @@ placeholder="1.17500">
 type="button"
 class="decimal-btn"
 data-target="entry">.</button>
+
 </div>
 
 </div>
@@ -372,28 +180,6 @@ data-target="risk">.</button>
 
 </div>
 
-<div id="conversionBox" style="display:none">
-
-<label>USDJPY RATE (për GBPJPY)</label>
-
-<div class="input-wrap">
-
-<input
-id="usdJpyRate"
-type="text"
-inputmode="decimal"
-autocomplete="off"
-placeholder="157.00">
-
-<button
-type="button"
-class="decimal-btn"
-data-target="usdJpyRate">.</button>
-
-</div>
-
-</div>
-
 <button type="submit">
 LLOGARIT LOT SIZE
 </button>
@@ -458,8 +244,8 @@ class="timezone-btn">
 
 <div class="note">
 
-Llogaritja përdor specifikat nga MetaTrader:
-EURUSD, GBPUSD, USDJPY, USDCAD, AUDUSD, USDCHF dhe GBPJPY
+Llogaritja përdor specifikat që më dërgove nga MetaTrader:
+EURUSD / GBPUSD / AUDUSD / USDCAD / USDCHF / USDJPY / GBPJPY
 = 100,000 njësi, volume step 0.01 dhe $2.50/lot për anë.
 
 XAUUSD = 100 oz, volume step 0.01 dhe 0.0007% për anë.
@@ -471,6 +257,7 @@ Loti rrumbullakohet gjithmonë POSHTË në hapin 0.01.
 <div class="spec">
 
 Nuk përfshihen spread-i floating, slippage ose swap-i.
+Risku real i ekzekutimit mund të ndryshojë pak nga kalkulimi teorik.
 
 </div>
 
@@ -572,8 +359,7 @@ document
 'entry',
 'sl',
 'tp',
-'risk',
-'usdJpyRate'
+'risk'
 ].forEach(id=>{
 
 document.getElementById(id).value='';
@@ -584,9 +370,12 @@ document.getElementById('buy').checked=true;
 
 document.getElementById('pair').value='EURUSD';
 
-document.getElementById('error').textContent='';
+const error=
+document.getElementById('error');
 
-document.getElementById('error').style.display='none';
+error.textContent='';
+
+error.style.display='none';
 
 resetResults();
 
@@ -594,25 +383,11 @@ document.getElementById('entry').focus();
 
 });
 
-function updateConversionBox(){
-
-document.getElementById('conversionBox').style.display=
-
-document.getElementById('pair').value==='GBPJPY'
-?'block'
-:'none';
-
-}
-
-updateConversionBox();
-
 document
 .getElementById('pair')
 .addEventListener('change',function(){
 
 resetResults();
-
-updateConversionBox();
 
 });
 
@@ -620,20 +395,22 @@ updateConversionBox();
 'entry',
 'sl',
 'tp',
-'risk',
-'usdJpyRate'
+'risk'
 ].forEach(id=>{
 
-const input=document.getElementById(id);
+const input=
+document.getElementById(id);
 
 input.addEventListener('input',()=>{
 
-input.value=input.value.replace(
+input.value=
+input.value.replace(
 /[^0-9.,]/g,
 ''
 );
 
-const firstSep=input.value.search(/[.,]/);
+const firstSep=
+input.value.search(/[.,]/);
 
 if(firstSep!==-1){
 
@@ -648,7 +425,8 @@ input.value
 .slice(firstSep+1)
 .replace(/[.,]/g,'');
 
-input.value=before+after;
+input.value=
+before+after;
 
 }
 
@@ -669,7 +447,8 @@ btn.dataset.target
 
 if(!/[.,]/.test(input.value)){
 
-input.value=input.value+'.';
+input.value=
+input.value+'.';
 
 }
 
@@ -677,7 +456,8 @@ input.focus();
 
 try{
 
-const pos=input.value.length;
+const pos=
+input.value.length;
 
 input.setSelectionRange(
 pos,
@@ -690,7 +470,7 @@ pos
 
 });
 
-function calculate(){
+async function calculate(){
 
 const error=
 document.getElementById('error');
@@ -700,7 +480,7 @@ error.style.display='none';
 const pair=
 document.getElementById('pair').value;
 
-function toNumber(id){
+const toNumber=(id)=>{
 
 const value=
 document
@@ -713,17 +493,27 @@ return value===''?
 NaN:
 Number(value);
 
-}
+};
 
-const entry=toNumber('entry');
-const sl=toNumber('sl');
-const tp=toNumber('tp');
-const risk=toNumber('risk');
+const entry=
+toNumber('entry');
+
+const sl=
+toNumber('sl');
+
+const tp=
+toNumber('tp');
+
+const risk=
+toNumber('risk');
 
 const buy=
-document.getElementById('buy').checked;
+document
+.getElementById('buy')
+.checked;
 
-const spec=SPECS[pair];
+const spec=
+SPECS[pair];
 
 if(
 !Number.isFinite(entry) ||
@@ -739,7 +529,11 @@ return showError(
 
 }
 
-if(entry<=0 || sl<=0 || tp<=0){
+if(
+entry<=0 ||
+sl<=0 ||
+tp<=0
+){
 
 return showError(
 'Entry, Stop Loss dhe Take Profit duhet të jenë më të mëdha se 0.'
@@ -786,18 +580,25 @@ const tpDistance=
 Math.abs(tp-entry);
 
 let lossPerLot=0;
+
 let profitPerLot=0;
 
 let commissionPerLotAtSL=0;
+
 let commissionPerLotAtTP=0;
+
+
+/* EURUSD / GBPUSD / AUDUSD */
 
 if(spec.type==='forex'){
 
 lossPerLot=
-slDistance*spec.contract;
+slDistance*
+spec.contract;
 
 profitPerLot=
-tpDistance*spec.contract;
+tpDistance*
+spec.contract;
 
 commissionPerLotAtSL=
 spec.commissionSide*2;
@@ -806,14 +607,21 @@ commissionPerLotAtTP=
 spec.commissionSide*2;
 
 }
+
+
+/* USDJPY */
 
 if(spec.type==='usdjpy'){
 
 lossPerLot=
-(slDistance*spec.contract)/entry;
+(slDistance*
+spec.contract)/
+entry;
 
 profitPerLot=
-(tpDistance*spec.contract)/entry;
+(tpDistance*
+spec.contract)/
+entry;
 
 commissionPerLotAtSL=
 spec.commissionSide*2;
@@ -822,14 +630,21 @@ commissionPerLotAtTP=
 spec.commissionSide*2;
 
 }
+
+
+/* USDCAD */
 
 if(spec.type==='usdcad'){
 
 lossPerLot=
-(slDistance*spec.contract)/entry;
+(slDistance*
+spec.contract)/
+entry;
 
 profitPerLot=
-(tpDistance*spec.contract)/entry;
+(tpDistance*
+spec.contract)/
+entry;
 
 commissionPerLotAtSL=
 spec.commissionSide*2;
@@ -838,14 +653,21 @@ commissionPerLotAtTP=
 spec.commissionSide*2;
 
 }
+
+
+/* USDCHF */
 
 if(spec.type==='usdchf'){
 
 lossPerLot=
-(slDistance*spec.contract)/entry;
+(slDistance*
+spec.contract)/
+entry;
 
 profitPerLot=
-(tpDistance*spec.contract)/entry;
+(tpDistance*
+spec.contract)/
+entry;
 
 commissionPerLotAtSL=
 spec.commissionSide*2;
@@ -855,28 +677,78 @@ spec.commissionSide*2;
 
 }
 
+
+/* GBPJPY */
+
 if(spec.type==='gbpjpy'){
 
-const usdJpyRate=
-toNumber('usdJpyRate');
+let usdJpyRate;
 
-if(
-!Number.isFinite(usdJpyRate) ||
-usdJpyRate<=0
-){
+try{
 
-return showError(
-'GBPJPY: vendos USDJPY Rate për konvertimin JPY → USD.'
+const response=
+await fetch(
+'https://api.exchangerate.fun/latest?base=USD',
+{
+cache:'no-store'
+}
+);
+
+if(!response.ok){
+
+throw new Error(
+'FX API error'
 );
 
 }
 
+const data=
+await response.json();
+
+usdJpyRate=
+Number(
+data?.rates?.JPY
+);
+
+}catch(e){
+
+return showError(
+'GBPJPY: nuk u mor dot kursi USDJPY automatikisht. Kontrollo internetin dhe provo përsëri.'
+);
+
+}
+
+if(
+!Number.isFinite(
+usdJpyRate
+) ||
+usdJpyRate<=0
+){
+
+return showError(
+'GBPJPY: kursi USDJPY i marrë automatikisht nuk është i vlefshëm.'
+);
+
+}
+
+/*
+GBPJPY ka Profit Currency = JPY.
+
+P/L në JPY:
+distance × 100,000
+
+Pastaj:
+JPY / USDJPY = USD
+*/
+
 lossPerLot=
-(slDistance*spec.contract)/
+(slDistance*
+spec.contract)/
 usdJpyRate;
 
 profitPerLot=
-(tpDistance*spec.contract)/
+(tpDistance*
+spec.contract)/
 usdJpyRate;
 
 commissionPerLotAtSL=
@@ -886,28 +758,38 @@ commissionPerLotAtTP=
 spec.commissionSide*2;
 
 }
+
+
+/* XAUUSD */
 
 if(spec.type==='gold'){
 
 lossPerLot=
-slDistance*spec.contract;
+slDistance*
+spec.contract;
 
 profitPerLot=
-tpDistance*spec.contract;
+tpDistance*
+spec.contract;
 
 commissionPerLotAtSL=
-(entry*spec.contract*
+(entry*
+spec.contract*
 spec.commissionRateSide)+
-(sl*spec.contract*
+(sl*
+spec.contract*
 spec.commissionRateSide);
 
 commissionPerLotAtTP=
-(entry*spec.contract*
+(entry*
+spec.contract*
 spec.commissionRateSide)+
-(tp*spec.contract*
+(tp*
+spec.contract*
 spec.commissionRateSide);
 
 }
+
 
 const riskPerLot=
 lossPerLot+
@@ -920,12 +802,18 @@ const lot=
 Math.floor(
 (rawLot/spec.step)+
 1e-10
-)*spec.step;
+)*
+spec.step;
 
 const roundedLot=
-Number(lot.toFixed(2));
+Number(
+lot.toFixed(2)
+);
 
-if(roundedLot<spec.min){
+if(
+roundedLot<
+spec.min
+){
 
 return showError(
 'Risku është shumë i vogël për 0.01 lot me këtë Stop Loss.'
@@ -933,7 +821,10 @@ return showError(
 
 }
 
-if(roundedLot>spec.max){
+if(
+roundedLot>
+spec.max
+){
 
 return showError(
 'Lot Size del mbi maksimumin e simbolit ('+
@@ -948,12 +839,15 @@ riskPerLot*
 roundedLot;
 
 const profit=
-(profitPerLot-
-commissionPerLotAtTP)*
+(
+profitPerLot-
+commissionPerLotAtTP
+)*
 roundedLot;
 
 const rr=
-profit/actualRisk;
+profit/
+actualRisk;
 
 const commissionDisplay=
 commissionPerLotAtSL*
@@ -963,29 +857,40 @@ const rawRisk=
 lossPerLot*
 roundedLot;
 
-document.getElementById('lot')
+document
+.getElementById('lot')
 .textContent=
 roundedLot.toFixed(2);
 
-document.getElementById('riskResult')
+document
+.getElementById('riskResult')
 .textContent=
-'$'+actualRisk.toFixed(2);
+'$'+
+actualRisk.toFixed(2);
 
-document.getElementById('profitResult')
+document
+.getElementById('profitResult')
 .textContent=
-'$'+profit.toFixed(2);
+'$'+
+profit.toFixed(2);
 
-document.getElementById('rrResult')
+document
+.getElementById('rrResult')
 .textContent=
-'1 : '+rr.toFixed(2);
+'1 : '+
+rr.toFixed(2);
 
-document.getElementById('commissionResult')
+document
+.getElementById('commissionResult')
 .textContent=
-'$'+commissionDisplay.toFixed(2);
+'$'+
+commissionDisplay.toFixed(2);
 
-document.getElementById('rawRiskResult')
+document
+.getElementById('rawRiskResult')
 .textContent=
-'$'+rawRisk.toFixed(2);
+'$'+
+rawRisk.toFixed(2);
 
 let digits=5;
 
@@ -1004,7 +909,8 @@ digits=2;
 
 }
 
-document.getElementById('distanceResult')
+document
+.getElementById('distanceResult')
 .textContent=
 slDistance.toFixed(digits);
 
@@ -1015,9 +921,11 @@ function showError(message){
 const error=
 document.getElementById('error');
 
-error.textContent=message;
+error.textContent=
+message;
 
-error.style.display='block';
+error.style.display=
+'block';
 
 resetResults();
 
@@ -1025,25 +933,32 @@ resetResults();
 
 function resetResults(){
 
-document.getElementById('lot')
+document
+.getElementById('lot')
 .textContent='—';
 
-document.getElementById('riskResult')
+document
+.getElementById('riskResult')
 .textContent='—';
 
-document.getElementById('profitResult')
+document
+.getElementById('profitResult')
 .textContent='—';
 
-document.getElementById('rrResult')
+document
+.getElementById('rrResult')
 .textContent='—';
 
-document.getElementById('distanceResult')
+document
+.getElementById('distanceResult')
 .textContent='—';
 
-document.getElementById('commissionResult')
+document
+.getElementById('commissionResult')
 .textContent='—';
 
-document.getElementById('rawRiskResult')
+document
+.getElementById('rawRiskResult')
 .textContent='—';
 
 }
