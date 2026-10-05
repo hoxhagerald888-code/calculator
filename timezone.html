@@ -17,46 +17,30 @@
 }
 
 body {
-
     margin: 0;
-
     background: #050b14;
-
     color: #ffffff;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .container {
-
     max-width: 950px;
-
     margin: auto;
-
     padding: 20px;
 }
 
 .header {
-
     text-align: center;
-
     margin-bottom: 20px;
 }
 
 .header h1 {
-
     margin: 0;
-
     font-size: 28px;
 }
 
 .header p {
-
     color: #9ca3af;
-
     margin-top: 8px;
 }
 
@@ -66,35 +50,23 @@ body {
 ========================= */
 
 .clock-box {
-
     background: #0b1422;
-
     border: 1px solid #26364d;
-
     border-radius: 14px;
-
     padding: 18px;
-
     text-align: center;
-
     margin-bottom: 20px;
 }
 
 #clock {
-
     font-size: 34px;
-
     font-weight: bold;
-
     letter-spacing: 1px;
 }
 
 #date {
-
     color: #9ca3af;
-
     margin-top: 6px;
-
     font-size: 15px;
 }
 
@@ -104,28 +76,18 @@ body {
 ========================= */
 
 .calculator-btn {
-
     display: block;
-
     text-decoration: none;
-
     text-align: center;
-
     background: #111c2c;
-
     color: white;
-
     border: 1px solid #26364d;
-
     padding: 13px;
-
     border-radius: 10px;
-
     margin-bottom: 20px;
 }
 
 .calculator-btn:hover {
-
     background: #17243a;
 }
 
@@ -135,29 +97,20 @@ body {
 ========================= */
 
 .status {
-
     text-align: center;
-
     background: #0b1422;
-
     border: 1px solid #26364d;
-
     border-radius: 12px;
-
     padding: 14px;
-
     margin-bottom: 18px;
-
     font-weight: bold;
 }
 
 .open {
-
     color: #22c55e;
 }
 
 .closed {
-
     color: #ef4444;
 }
 
@@ -167,78 +120,52 @@ body {
 ========================= */
 
 .session {
-
     background: #0b1422;
-
     border: 1px solid #26364d;
-
     border-radius: 14px;
-
     padding: 18px;
-
     margin-bottom: 14px;
 }
 
 .session-header {
-
     display: flex;
-
     justify-content: space-between;
-
     align-items: center;
-
     gap: 10px;
-
     flex-wrap: wrap;
-
     margin-bottom: 12px;
 }
 
 .session-name {
-
     font-size: 20px;
-
     font-weight: bold;
 }
 
 .session-time {
-
     color: #9ca3af;
-
     font-size: 14px;
 }
 
 .active {
-
     border-color: #22c55e;
 }
 
 .active .session-name {
-
     color: #22c55e;
 }
 
 .pairs {
-
     display: flex;
-
     flex-wrap: wrap;
-
     gap: 8px;
 }
 
 .pair {
-
     background: #111c2c;
-
     border: 1px solid #26364d;
-
     padding: 8px 11px;
-
     border-radius: 8px;
-
     font-size: 13px;
-
     font-weight: bold;
 }
 
@@ -248,15 +175,10 @@ body {
 ========================= */
 
 .now {
-
     margin-top: 8px;
-
     text-align: center;
-
     color: #fbbf24;
-
     font-size: 14px;
-
     font-weight: bold;
 }
 
@@ -268,22 +190,18 @@ body {
 @media (max-width: 600px) {
 
     .container {
-
         padding: 12px;
     }
 
     .header h1 {
-
         font-size: 23px;
     }
 
     #clock {
-
         font-size: 29px;
     }
 
     .session-name {
-
         font-size: 18px;
     }
 
@@ -330,7 +248,7 @@ body {
 
 
     <!-- =========================
-         BACK
+         BACK BUTTON
     ========================== -->
 
     <a
@@ -452,7 +370,7 @@ body {
 
 
     <!-- =========================
-         OVERLAP
+         LONDON + NEW YORK
     ========================== -->
 
     <div
@@ -565,6 +483,10 @@ body {
     </div>
 
 
+    <!-- =========================
+         CURRENT TIME
+    ========================== -->
+
     <div
         id="now"
         class="now"
@@ -582,12 +504,11 @@ body {
    TIMEZONE
 ========================================== */
 
-const TIRANA_ZONE =
-    "Europe/Tirane";
+const TIRANA_ZONE = "Europe/Tirane";
 
 
 /* ==========================================
-   GET CURRENT TIME IN TIMEZONE
+   GET TIME PARTS
 ========================================== */
 
 function getTimeParts(timeZone) {
@@ -611,11 +532,10 @@ function getTimeParts(timeZone) {
 
     const result = {};
 
-    parts.forEach(part => {
 
-        if (
-            part.type !== "literal"
-        ) {
+    parts.forEach(function(part) {
+
+        if (part.type !== "literal") {
 
             result[part.type] =
                 Number(part.value);
@@ -635,25 +555,16 @@ function getTimeParts(timeZone) {
 
 function updateClock() {
 
-    const now =
-        new Date();
+    const now = new Date();
 
 
     /*
-       IMPORTANT:
-
-       We explicitly request:
-
-       hour
-       minute
-       second
-
-       so seconds are updated every second.
+       Get time in Tirana
     */
 
-    const clock =
+    const parts =
         new Intl.DateTimeFormat(
-            "sq-AL",
+            "en-US",
             {
                 timeZone: TIRANA_ZONE,
 
@@ -665,8 +576,69 @@ function updateClock() {
 
                 hour12: false
             }
-        ).format(now);
+        ).formatToParts(now);
 
+
+    let hour = "00";
+    let minute = "00";
+    let second = "00";
+
+
+    parts.forEach(function(part) {
+
+        if (part.type === "hour") {
+
+            hour = part.value;
+
+        }
+
+        if (part.type === "minute") {
+
+            minute = part.value;
+
+        }
+
+        if (part.type === "second") {
+
+            second = part.value;
+
+        }
+
+    });
+
+
+    /*
+       Some browsers can return
+       24 instead of 00 at midnight.
+    */
+
+    if (hour === "24") {
+
+        hour = "00";
+
+    }
+
+
+    /*
+       Build clock manually
+    */
+
+    const clock =
+        hour +
+        ":" +
+        minute +
+        ":" +
+        second;
+
+
+    document.getElementById(
+        "clock"
+    ).textContent = clock;
+
+
+    /*
+       Date
+    */
 
     const date =
         new Intl.DateTimeFormat(
@@ -686,32 +658,29 @@ function updateClock() {
 
 
     document.getElementById(
-        "clock"
-    ).textContent = clock;
-
-
-    document.getElementById(
         "date"
     ).textContent = date;
 
 }
 
 
-/*
-   Run immediately
-*/
+/* ==========================================
+   START CLOCK
+========================================== */
 
 updateClock();
 
 
 /*
-   Update EVERY SECOND
+   IMPORTANT:
+   Update clock every second.
 */
 
-setInterval(
-    updateClock,
-    1000
-);
+setInterval(function() {
+
+    updateClock();
+
+}, 1000);
 
 
 /* ==========================================
@@ -719,6 +688,7 @@ setInterval(
 ========================================== */
 
 function updateSessions() {
+
 
     const tirana =
         getTimeParts(
@@ -744,9 +714,9 @@ function updateSessions() {
         );
 
 
-    /*
-       Convert time to minutes
-    */
+    /* =========================
+       CONVERT TO MINUTES
+    ========================== */
 
     const tokyoMinutes =
         tokyo.hour * 60 +
@@ -763,34 +733,25 @@ function updateSessions() {
         newYork.minute;
 
 
-    /*
-       Session times
-    */
+    /* =========================
+       SESSION TIMES
+    ========================== */
 
-    const asiaOpen =
-        9 * 60;
-
-    const asiaClose =
-        18 * 60;
+    const asiaOpen = 9 * 60;
+    const asiaClose = 18 * 60;
 
 
-    const londonOpen =
-        8 * 60;
-
-    const londonClose =
-        17 * 60;
+    const londonOpen = 8 * 60;
+    const londonClose = 17 * 60;
 
 
-    const nyOpen =
-        8 * 60;
-
-    const nyClose =
-        17 * 60;
+    const nyOpen = 8 * 60;
+    const nyClose = 17 * 60;
 
 
-    /*
-       Check sessions
-    */
+    /* =========================
+       ACTIVE SESSIONS
+    ========================== */
 
     const asiaActive =
         tokyoMinutes >= asiaOpen &&
@@ -807,35 +768,29 @@ function updateSessions() {
         newYorkMinutes < nyClose;
 
 
-    /*
-       Overlap occurs when both
-       London and New York are open.
-    */
-
     const overlapActive =
         londonActive &&
         nyActive;
 
 
-    /*
-       Remove previous active state
-    */
+    /* =========================
+       REMOVE ACTIVE
+    ========================== */
 
     document
-        .querySelectorAll(
-            ".session"
-        )
-        .forEach(
-            element =>
-                element.classList.remove(
-                    "active"
-                )
-        );
+        .querySelectorAll(".session")
+        .forEach(function(element) {
+
+            element.classList.remove(
+                "active"
+            );
+
+        });
 
 
-    /*
-       Apply active state
-    */
+    /* =========================
+       ADD ACTIVE
+    ========================== */
 
     if (asiaActive) {
 
@@ -873,12 +828,9 @@ function updateSessions() {
     }
 
 
-    /*
-       Weekend detection
-
-       Saturday = 6
-       Sunday   = 0
-    */
+    /* =========================
+       WEEKEND
+    ========================== */
 
     const day =
         new Date().getDay();
@@ -956,17 +908,22 @@ function updateSessions() {
     }
 
 
-    /*
-       Current Tirana time
-    */
+    /* =========================
+       CURRENT TIRANA TIME
+    ========================== */
 
     const tiranaTime =
+
         String(tirana.hour)
             .padStart(2, "0")
+
         + ":" +
+
         String(tirana.minute)
             .padStart(2, "0")
+
         + ":" +
+
         String(tirana.second)
             .padStart(2, "0");
 
@@ -980,21 +937,29 @@ function updateSessions() {
 
 
 /* ==========================================
-   RUN SESSION CHECK
+   START SESSION LOGIC
 ========================================== */
 
 updateSessions();
 
 
 /*
-   Update every second as well.
-   This keeps session status and
-   TANI synchronized with the clock.
+   Update sessions every second
 */
 
-setInterval(
-    updateSessions,
-    1000
+setInterval(function() {
+
+    updateSessions();
+
+}, 1000);
+
+
+/* ==========================================
+   DEBUG TEST
+========================================== */
+
+console.log(
+    "Forex Daily Agenda JavaScript is working."
 );
 
 </script>
