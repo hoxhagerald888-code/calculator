@@ -1,814 +1,1004 @@
 <!DOCTYPE html>
 <html lang="sq">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
 <title>Forex Daily Agenda</title>
 
 <style>
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
 
-    body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-        background:
-            radial-gradient(circle at top left, #10264d 0%, transparent 35%),
-            radial-gradient(circle at bottom right, #071a35 0%, transparent 40%),
-            #050b16;
-        color: #ffffff;
-        min-height: 100vh;
-        padding: 20px;
-    }
+* {
+    box-sizing: border-box;
+}
+
+body {
+
+    margin: 0;
+
+    background: #050b14;
+
+    color: #ffffff;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+}
+
+.container {
+
+    max-width: 950px;
+
+    margin: auto;
+
+    padding: 20px;
+}
+
+.header {
+
+    text-align: center;
+
+    margin-bottom: 20px;
+}
+
+.header h1 {
+
+    margin: 0;
+
+    font-size: 28px;
+}
+
+.header p {
+
+    color: #9ca3af;
+
+    margin-top: 8px;
+}
+
+
+/* =========================
+   CLOCK
+========================= */
+
+.clock-box {
+
+    background: #0b1422;
+
+    border: 1px solid #26364d;
+
+    border-radius: 14px;
+
+    padding: 18px;
+
+    text-align: center;
+
+    margin-bottom: 20px;
+}
+
+#clock {
+
+    font-size: 34px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+}
+
+#date {
+
+    color: #9ca3af;
+
+    margin-top: 6px;
+
+    font-size: 15px;
+}
+
+
+/* =========================
+   BACK BUTTON
+========================= */
+
+.calculator-btn {
+
+    display: block;
+
+    text-decoration: none;
+
+    text-align: center;
+
+    background: #111c2c;
+
+    color: white;
+
+    border: 1px solid #26364d;
+
+    padding: 13px;
+
+    border-radius: 10px;
+
+    margin-bottom: 20px;
+}
+
+.calculator-btn:hover {
+
+    background: #17243a;
+}
+
+
+/* =========================
+   MARKET STATUS
+========================= */
+
+.status {
+
+    text-align: center;
+
+    background: #0b1422;
+
+    border: 1px solid #26364d;
+
+    border-radius: 12px;
+
+    padding: 14px;
+
+    margin-bottom: 18px;
+
+    font-weight: bold;
+}
+
+.open {
+
+    color: #22c55e;
+}
+
+.closed {
+
+    color: #ef4444;
+}
+
+
+/* =========================
+   SESSION CARD
+========================= */
+
+.session {
+
+    background: #0b1422;
+
+    border: 1px solid #26364d;
+
+    border-radius: 14px;
+
+    padding: 18px;
+
+    margin-bottom: 14px;
+}
+
+.session-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 10px;
+
+    flex-wrap: wrap;
+
+    margin-bottom: 12px;
+}
+
+.session-name {
+
+    font-size: 20px;
+
+    font-weight: bold;
+}
+
+.session-time {
+
+    color: #9ca3af;
+
+    font-size: 14px;
+}
+
+.active {
+
+    border-color: #22c55e;
+}
+
+.active .session-name {
+
+    color: #22c55e;
+}
+
+.pairs {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+}
+
+.pair {
+
+    background: #111c2c;
+
+    border: 1px solid #26364d;
+
+    padding: 8px 11px;
+
+    border-radius: 8px;
+
+    font-size: 13px;
+
+    font-weight: bold;
+}
+
+
+/* =========================
+   NOW
+========================= */
+
+.now {
+
+    margin-top: 8px;
+
+    text-align: center;
+
+    color: #fbbf24;
+
+    font-size: 14px;
+
+    font-weight: bold;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
 
     .container {
-        max-width: 850px;
-        margin: 0 auto;
+
+        padding: 12px;
     }
 
-    .header {
-        text-align: center;
-        margin-bottom: 22px;
+    .header h1 {
+
+        font-size: 23px;
     }
 
-    .brand {
-        color: #4da3ff;
-        font-size: 12px;
-        font-weight: 700;
-        letter-spacing: 2px;
-        margin-bottom: 7px;
-    }
+    #clock {
 
-    h1 {
-        font-size: 30px;
-        font-weight: 800;
-        margin-bottom: 6px;
-    }
-
-    .subtitle {
-        color: #8b9bb5;
-        font-size: 14px;
-    }
-
-    /* CALCULATOR BUTTON */
-    .calculator-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-
-        width: 100%;
-        margin: 0 auto 18px;
-
-        padding: 13px 18px;
-
-        background: linear-gradient(135deg, #1677ff, #0d5fd1);
-        border: 1px solid #3190ff;
-        border-radius: 13px;
-
-        color: #ffffff;
-        text-decoration: none;
-
-        font-size: 14px;
-        font-weight: 700;
-
-        box-shadow: 0 8px 25px rgba(0, 110, 255, 0.18);
-
-        transition: 0.2s ease;
-    }
-
-    .calculator-btn:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 10px 30px rgba(0, 110, 255, 0.28);
-    }
-
-    /* CLOCK */
-    .clock-card {
-        background: rgba(14, 25, 44, 0.88);
-        border: 1px solid #1c3152;
-        border-radius: 18px;
-        padding: 20px;
-        text-align: center;
-        margin-bottom: 20px;
-        box-shadow: 0 12px 35px rgba(0,0,0,0.22);
-    }
-
-    .clock-label {
-        color: #7e91ae;
-        font-size: 11px;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        margin-bottom: 5px;
-    }
-
-    .clock {
-        font-size: 34px;
-        font-weight: 800;
-        letter-spacing: 1px;
-    }
-
-    .date {
-        color: #8d9bb0;
-        font-size: 13px;
-        margin-top: 4px;
-    }
-
-    .status {
-        display: inline-flex;
-        align-items: center;
-        gap: 7px;
-
-        margin-top: 13px;
-
-        padding: 7px 12px;
-        border-radius: 30px;
-
-        background: rgba(39, 174, 96, 0.12);
-        border: 1px solid rgba(39, 174, 96, 0.25);
-
-        color: #54d68a;
-        font-size: 12px;
-        font-weight: 700;
-    }
-
-    .status-dot {
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background: #42d67c;
-        box-shadow: 0 0 8px #42d67c;
-    }
-
-    .status.closed {
-        background: rgba(255,255,255,0.05);
-        border-color: #26364d;
-        color: #8795aa;
-    }
-
-    .status.closed .status-dot {
-        background: #68768a;
-        box-shadow: none;
-    }
-
-    /* SESSIONS */
-    .sessions {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-    }
-
-    .session {
-        background: rgba(12, 23, 40, 0.90);
-        border: 1px solid #1c2d46;
-        border-radius: 18px;
-        padding: 18px;
-
-        min-height: 205px;
-
-        transition: 0.2s ease;
-    }
-
-    .session.active {
-        border-color: #2488ff;
-        box-shadow:
-            0 0 0 1px rgba(36,136,255,0.15),
-            0 12px 35px rgba(0,100,255,0.12);
-    }
-
-    .session.closed {
-        opacity: 0.65;
-    }
-
-    .session-top {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 10px;
-
-        margin-bottom: 15px;
+        font-size: 29px;
     }
 
     .session-name {
+
         font-size: 18px;
-        font-weight: 800;
     }
 
-    .session-icon {
-        font-size: 20px;
-        margin-right: 5px;
-    }
+}
 
-    .session-time {
-        color: #7e91aa;
-        font-size: 12px;
-        margin-top: 4px;
-    }
-
-    .now {
-        background: #1677ff;
-        color: white;
-        border-radius: 20px;
-        padding: 5px 9px;
-        font-size: 10px;
-        font-weight: 800;
-        letter-spacing: .5px;
-    }
-
-    .closed-label {
-        background: rgba(255,255,255,0.06);
-        color: #77869a;
-        border-radius: 20px;
-        padding: 5px 9px;
-        font-size: 10px;
-        font-weight: 800;
-        letter-spacing: .5px;
-    }
-
-    /* PAIRS */
-    .pairs {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 7px;
-    }
-
-    .pair {
-        background: #111f34;
-        border: 1px solid #213654;
-        color: #dce7f5;
-
-        border-radius: 9px;
-        padding: 7px 9px;
-
-        font-size: 12px;
-        font-weight: 700;
-    }
-
-    .overlap {
-        border-color: #25466d;
-        background:
-            linear-gradient(
-                135deg,
-                rgba(23,119,255,0.09),
-                rgba(11,25,44,0.95)
-            );
-    }
-
-    .overlap .session-name {
-        color: #6db4ff;
-    }
-
-    /* FOOTER */
-    .footer {
-        text-align: center;
-        color: #63748c;
-        font-size: 11px;
-        line-height: 1.6;
-        margin-top: 20px;
-        padding-bottom: 10px;
-    }
-
-    @media (max-width: 650px) {
-
-        body {
-            padding: 14px;
-        }
-
-        h1 {
-            font-size: 26px;
-        }
-
-        .sessions {
-            grid-template-columns: 1fr;
-        }
-
-        .session {
-            min-height: auto;
-        }
-
-        .clock {
-            font-size: 30px;
-        }
-    }
 </style>
+
 </head>
+
 
 <body>
 
 <div class="container">
 
+
     <div class="header">
-        <div class="brand">FOREX CONTROL CENTER</div>
 
-        <h1>Daily Agenda</h1>
+        <h1>
+            Forex Daily Agenda
+        </h1>
 
-        <div class="subtitle">
+        <p>
             8 instrumentet · Ora lokale e Shqipërisë 🇦🇱
-        </div>
+        </p>
+
     </div>
 
 
-    <!-- BACK TO LOT SIZE CALCULATOR -->
-    <a href="index.html" class="calculator-btn">
+    <!-- =========================
+         LIVE CLOCK
+    ========================== -->
+
+    <div class="clock-box">
+
+        <div id="clock">
+            --:--:--
+        </div>
+
+        <div id="date">
+            --
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         BACK
+    ========================== -->
+
+    <a
+        href="index.html"
+        class="calculator-btn"
+    >
         ← LOT SIZE CALCULATOR
     </a>
 
 
-    <!-- CLOCK -->
-    <div class="clock-card">
+    <!-- =========================
+         MARKET STATUS
+    ========================== -->
 
-        <div class="clock-label">
-            Ora në Shqipëri
-        </div>
-
-        <div class="clock" id="clock">
-            --:--:--
-        </div>
-
-        <div class="date" id="date">
-            --
-        </div>
-
-        <div class="status" id="marketStatus">
-            <span class="status-dot"></span>
-            <span id="statusText">Market Open</span>
-        </div>
-
+    <div
+        id="marketStatus"
+        class="status"
+    >
+        --
     </div>
 
 
-    <!-- SESSIONS -->
-    <div class="sessions">
+    <!-- =========================
+         ASIA
+    ========================== -->
 
-        <!-- ASIA -->
-        <div class="session" id="asia">
+    <div
+        id="asia"
+        class="session"
+    >
 
-            <div class="session-top">
+        <div class="session-header">
 
-                <div>
-                    <div class="session-name">
-                        <span class="session-icon">🌏</span>
-                        Asia / Tokyo
-                    </div>
-
-                    <div class="session-time" id="asiaTime">
-                        --:-- – --:--
-                    </div>
-                </div>
-
-                <div class="session-badge"></div>
-
+            <div class="session-name">
+                🇯🇵 Asia / Tokyo
             </div>
 
-            <div class="pairs">
-                <span class="pair">USDJPY</span>
-                <span class="pair">AUDUSD</span>
-                <span class="pair">GBPJPY</span>
+            <div class="session-time">
+                09:00 – 18:00 Tokyo
             </div>
 
         </div>
 
 
-        <!-- LONDON -->
-        <div class="session" id="london">
+        <div class="pairs">
 
-            <div class="session-top">
+            <span class="pair">
+                USDJPY
+            </span>
 
-                <div>
-                    <div class="session-name">
-                        <span class="session-icon">🇬🇧</span>
-                        London
-                    </div>
+            <span class="pair">
+                AUDUSD
+            </span>
 
-                    <div class="session-time" id="londonTime">
-                        --:-- – --:--
-                    </div>
-                </div>
+            <span class="pair">
+                GBPJPY
+            </span>
 
-                <div class="session-badge"></div>
-
-            </div>
-
-            <div class="pairs">
-                <span class="pair">EURUSD</span>
-                <span class="pair">GBPUSD</span>
-                <span class="pair">GBPJPY</span>
-                <span class="pair">USDCHF</span>
-                <span class="pair">XAUUSD</span>
-            </div>
-
-        </div>
-
-
-        <!-- LONDON + NEW YORK -->
-        <div class="session overlap" id="overlap">
-
-            <div class="session-top">
-
-                <div>
-                    <div class="session-name">
-                        <span class="session-icon">🔥</span>
-                        London + New York
-                    </div>
-
-                    <div class="session-time" id="overlapTime">
-                        --:-- – --:--
-                    </div>
-                </div>
-
-                <div class="session-badge"></div>
-
-            </div>
-
-            <div class="pairs">
-                <span class="pair">EURUSD</span>
-                <span class="pair">GBPUSD</span>
-                <span class="pair">GBPJPY</span>
-                <span class="pair">USDCHF</span>
-                <span class="pair">USDJPY</span>
-                <span class="pair">XAUUSD</span>
-                <span class="pair">USDCAD</span>
-            </div>
-
-        </div>
-
-
-        <!-- NEW YORK -->
-        <div class="session" id="newyork">
-
-            <div class="session-top">
-
-                <div>
-                    <div class="session-name">
-                        <span class="session-icon">🇺🇸</span>
-                        New York
-                    </div>
-
-                    <div class="session-time" id="newyorkTime">
-                        --:-- – --:--
-                    </div>
-                </div>
-
-                <div class="session-badge"></div>
-
-            </div>
-
-            <div class="pairs">
-                <span class="pair">EURUSD</span>
-                <span class="pair">GBPUSD</span>
-                <span class="pair">USDJPY</span>
-                <span class="pair">XAUUSD</span>
-                <span class="pair">USDCAD</span>
-                <span class="pair">USDCHF</span>
-            </div>
+            <span class="pair">
+                XAUUSD
+            </span>
 
         </div>
 
     </div>
 
 
-    <div class="footer">
-        Të gjitha oraret konvertohen automatikisht në
-        <strong>Europe/Tirane</strong> 🇦🇱
-        <br>
-        Orari përshtatet automatikisht me Daylight Saving Time.
-        <br>
-        Forex është i mbyllur gjatë fundjavës.
+    <!-- =========================
+         LONDON
+    ========================== -->
+
+    <div
+        id="london"
+        class="session"
+    >
+
+        <div class="session-header">
+
+            <div class="session-name">
+                🇬🇧 London
+            </div>
+
+            <div class="session-time">
+                08:00 – 17:00 London
+            </div>
+
+        </div>
+
+
+        <div class="pairs">
+
+            <span class="pair">
+                EURUSD
+            </span>
+
+            <span class="pair">
+                GBPUSD
+            </span>
+
+            <span class="pair">
+                GBPJPY
+            </span>
+
+            <span class="pair">
+                USDCHF
+            </span>
+
+            <span class="pair">
+                XAUUSD
+            </span>
+
+            <span class="pair">
+                USDJPY
+            </span>
+
+        </div>
+
     </div>
+
+
+    <!-- =========================
+         OVERLAP
+    ========================== -->
+
+    <div
+        id="overlap"
+        class="session"
+    >
+
+        <div class="session-header">
+
+            <div class="session-name">
+                🔥 London + New York
+            </div>
+
+            <div class="session-time">
+                Overlap
+            </div>
+
+        </div>
+
+
+        <div class="pairs">
+
+            <span class="pair">
+                EURUSD
+            </span>
+
+            <span class="pair">
+                GBPUSD
+            </span>
+
+            <span class="pair">
+                GBPJPY
+            </span>
+
+            <span class="pair">
+                USDCHF
+            </span>
+
+            <span class="pair">
+                USDJPY
+            </span>
+
+            <span class="pair">
+                XAUUSD
+            </span>
+
+            <span class="pair">
+                USDCAD
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         NEW YORK
+    ========================== -->
+
+    <div
+        id="newyork"
+        class="session"
+    >
+
+        <div class="session-header">
+
+            <div class="session-name">
+                🇺🇸 New York
+            </div>
+
+            <div class="session-time">
+                08:00 – 17:00 New York
+            </div>
+
+        </div>
+
+
+        <div class="pairs">
+
+            <span class="pair">
+                EURUSD
+            </span>
+
+            <span class="pair">
+                GBPUSD
+            </span>
+
+            <span class="pair">
+                USDJPY
+            </span>
+
+            <span class="pair">
+                XAUUSD
+            </span>
+
+            <span class="pair">
+                USDCAD
+            </span>
+
+            <span class="pair">
+                USDCHF
+            </span>
+
+            <span class="pair">
+                GBPJPY
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div
+        id="now"
+        class="now"
+    >
+        TANI: --
+    </div>
+
 
 </div>
 
 
 <script>
 
-const TIRANA = "Europe/Tirane";
-const LONDON = "Europe/London";
-const NEW_YORK = "America/New_York";
-const TOKYO = "Asia/Tokyo";
+/* ==========================================
+   TIMEZONE
+========================================== */
+
+const TIRANA_ZONE =
+    "Europe/Tirane";
 
 
-function getTimeInZone(date, timeZone) {
+/* ==========================================
+   GET CURRENT TIME IN TIMEZONE
+========================================== */
 
-    return new Intl.DateTimeFormat("en-GB", {
-        timeZone: timeZone,
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false
-    }).format(date);
+function getTimeParts(timeZone) {
 
-}
+    const parts =
+        new Intl.DateTimeFormat(
+            "en-US",
+            {
+                timeZone: timeZone,
 
+                hour: "2-digit",
 
-function getParts(date, timeZone) {
+                minute: "2-digit",
 
-    const parts = new Intl.DateTimeFormat("en-GB", {
-        timeZone: timeZone,
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        weekday: "short",
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false
-    }).formatToParts(date);
+                second: "2-digit",
+
+                hour12: false
+            }
+        ).formatToParts(new Date());
+
 
     const result = {};
 
     parts.forEach(part => {
-        result[part.type] = part.value;
+
+        if (
+            part.type !== "literal"
+        ) {
+
+            result[part.type] =
+                Number(part.value);
+
+        }
+
     });
+
 
     return result;
 }
 
 
-function getOffsetMinutes(date, timeZone) {
-
-    const parts = new Intl.DateTimeFormat("en-US", {
-        timeZone: timeZone,
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hourCycle: "h23"
-    }).formatToParts(date);
-
-    const values = {};
-
-    parts.forEach(part => {
-        values[part.type] = part.value;
-    });
-
-    const utcTime = Date.UTC(
-        Number(values.year),
-        Number(values.month) - 1,
-        Number(values.day),
-        Number(values.hour),
-        Number(values.minute),
-        Number(values.second)
-    );
-
-    return Math.round((utcTime - date.getTime()) / 60000);
-}
-
-
-function getSessionRange(date, timeZone, startHour, endHour) {
-
-    const local = getParts(date, timeZone);
-
-    const year = Number(local.year);
-    const month = Number(local.month);
-    const day = Number(local.day);
-
-    const offset = getOffsetMinutes(date, timeZone);
-
-    let startUTC =
-        Date.UTC(year, month - 1, day, startHour, 0, 0)
-        - offset * 60000;
-
-    let endUTC =
-        Date.UTC(year, month - 1, day, endHour, 0, 0)
-        - offset * 60000;
-
-    if (endHour <= startHour) {
-        endUTC += 24 * 60 * 60 * 1000;
-    }
-
-    const start = new Date(startUTC);
-    const end = new Date(endUTC);
-
-    return {
-        start,
-        end,
-        startText: getTimeInZone(start, TIRANA),
-        endText: getTimeInZone(end, TIRANA)
-    };
-}
-
-
-function getOverlapRange(date) {
-
-    const london = getSessionRange(date, LONDON, 8, 17);
-    const ny = getSessionRange(date, NEW_YORK, 8, 17);
-
-    const start = new Date(
-        Math.max(london.start.getTime(), ny.start.getTime())
-    );
-
-    const end = new Date(
-        Math.min(london.end.getTime(), ny.end.getTime())
-    );
-
-    return {
-        start,
-        end,
-        startText: getTimeInZone(start, TIRANA),
-        endText: getTimeInZone(end, TIRANA)
-    };
-}
-
-
-function isWeekend(date) {
-
-    const parts = getParts(date, TIRANA);
-
-    return parts.weekday === "Sat" || parts.weekday === "Sun";
-}
-
+/* ==========================================
+   LIVE CLOCK
+========================================== */
 
 function updateClock() {
 
-    const now = new Date();
-
-    document.getElementById("clock").textContent =
-        getTimeInZone(now, TIRANA) + ":00";
+    const now =
+        new Date();
 
 
-    const dateText = new Intl.DateTimeFormat("sq-AL", {
-        timeZone: TIRANA,
-        weekday: "long",
-        day: "numeric",
-        month: "long",
-        year: "numeric"
-    }).format(now);
+    /*
+       IMPORTANT:
 
-    document.getElementById("date").textContent =
-        dateText;
+       We explicitly request:
+
+       hour
+       minute
+       second
+
+       so seconds are updated every second.
+    */
+
+    const clock =
+        new Intl.DateTimeFormat(
+            "sq-AL",
+            {
+                timeZone: TIRANA_ZONE,
+
+                hour: "2-digit",
+
+                minute: "2-digit",
+
+                second: "2-digit",
+
+                hour12: false
+            }
+        ).format(now);
 
 
-    if (isWeekend(now)) {
+    const date =
+        new Intl.DateTimeFormat(
+            "sq-AL",
+            {
+                timeZone: TIRANA_ZONE,
 
-        setWeekendMode();
+                weekday: "long",
 
-        return;
-    }
+                day: "2-digit",
+
+                month: "long",
+
+                year: "numeric"
+            }
+        ).format(now);
 
 
-    setWeekdayMode(now);
+    document.getElementById(
+        "clock"
+    ).textContent = clock;
+
+
+    document.getElementById(
+        "date"
+    ).textContent = date;
+
 }
 
 
-function setWeekendMode() {
-
-    const sessions = [
-        "asia",
-        "london",
-        "overlap",
-        "newyork"
-    ];
-
-    sessions.forEach(id => {
-
-        const card = document.getElementById(id);
-
-        card.classList.remove("active");
-        card.classList.add("closed");
-
-        const badge =
-            card.querySelector(".session-badge");
-
-        badge.innerHTML =
-            '<span class="closed-label">MARKET CLOSED</span>';
-
-    });
-
-
-    const status =
-        document.getElementById("marketStatus");
-
-    status.classList.add("closed");
-
-    document.getElementById("statusText").textContent =
-        "Forex Market Closed — Weekend";
-}
-
-
-function setWeekdayMode(now) {
-
-    const asia =
-        getSessionRange(now, TOKYO, 9, 18);
-
-    const london =
-        getSessionRange(now, LONDON, 8, 17);
-
-    const ny =
-        getSessionRange(now, NEW_YORK, 8, 17);
-
-    const overlap =
-        getOverlapRange(now);
-
-
-    document.getElementById("asiaTime").textContent =
-        asia.startText + " – " + asia.endText;
-
-    document.getElementById("londonTime").textContent =
-        london.startText + " – " + london.endText;
-
-    document.getElementById("overlapTime").textContent =
-        overlap.startText + " – " + overlap.endText;
-
-    document.getElementById("newyorkTime").textContent =
-        ny.startText + " – " + ny.endText;
-
-
-    const sessions = [
-        {
-            id: "asia",
-            range: asia
-        },
-        {
-            id: "london",
-            range: london
-        },
-        {
-            id: "overlap",
-            range: overlap
-        },
-        {
-            id: "newyork",
-            range: ny
-        }
-    ];
-
-
-    let activeSession = null;
-
-
-    sessions.forEach(session => {
-
-        const card =
-            document.getElementById(session.id);
-
-        card.classList.remove("active");
-        card.classList.remove("closed");
-
-        const badge =
-            card.querySelector(".session-badge");
-
-        badge.innerHTML = "";
-
-    });
-
-
-    for (const session of sessions) {
-
-        if (
-            now >= session.range.start &&
-            now < session.range.end
-        ) {
-
-            activeSession = session.id;
-
-            break;
-        }
-    }
-
-
-    if (activeSession) {
-
-        const card =
-            document.getElementById(activeSession);
-
-        card.classList.add("active");
-
-        const badge =
-            card.querySelector(".session-badge");
-
-        badge.innerHTML =
-            '<span class="now">TANI</span>';
-
-    }
-
-
-    const status =
-        document.getElementById("marketStatus");
-
-    status.classList.remove("closed");
-
-    if (activeSession) {
-
-        document.getElementById("statusText").textContent =
-            "Forex Market Open";
-
-    } else {
-
-        document.getElementById("statusText").textContent =
-            "Market Open — Session transition";
-
-    }
-
-}
-
+/*
+   Run immediately
+*/
 
 updateClock();
 
-setInterval(updateClock, 1000);
+
+/*
+   Update EVERY SECOND
+*/
+
+setInterval(
+    updateClock,
+    1000
+);
+
+
+/* ==========================================
+   SESSION LOGIC
+========================================== */
+
+function updateSessions() {
+
+    const tirana =
+        getTimeParts(
+            "Europe/Tirane"
+        );
+
+
+    const tokyo =
+        getTimeParts(
+            "Asia/Tokyo"
+        );
+
+
+    const london =
+        getTimeParts(
+            "Europe/London"
+        );
+
+
+    const newYork =
+        getTimeParts(
+            "America/New_York"
+        );
+
+
+    /*
+       Convert time to minutes
+    */
+
+    const tokyoMinutes =
+        tokyo.hour * 60 +
+        tokyo.minute;
+
+
+    const londonMinutes =
+        london.hour * 60 +
+        london.minute;
+
+
+    const newYorkMinutes =
+        newYork.hour * 60 +
+        newYork.minute;
+
+
+    /*
+       Session times
+    */
+
+    const asiaOpen =
+        9 * 60;
+
+    const asiaClose =
+        18 * 60;
+
+
+    const londonOpen =
+        8 * 60;
+
+    const londonClose =
+        17 * 60;
+
+
+    const nyOpen =
+        8 * 60;
+
+    const nyClose =
+        17 * 60;
+
+
+    /*
+       Check sessions
+    */
+
+    const asiaActive =
+        tokyoMinutes >= asiaOpen &&
+        tokyoMinutes < asiaClose;
+
+
+    const londonActive =
+        londonMinutes >= londonOpen &&
+        londonMinutes < londonClose;
+
+
+    const nyActive =
+        newYorkMinutes >= nyOpen &&
+        newYorkMinutes < nyClose;
+
+
+    /*
+       Overlap occurs when both
+       London and New York are open.
+    */
+
+    const overlapActive =
+        londonActive &&
+        nyActive;
+
+
+    /*
+       Remove previous active state
+    */
+
+    document
+        .querySelectorAll(
+            ".session"
+        )
+        .forEach(
+            element =>
+                element.classList.remove(
+                    "active"
+                )
+        );
+
+
+    /*
+       Apply active state
+    */
+
+    if (asiaActive) {
+
+        document
+            .getElementById("asia")
+            .classList.add("active");
+
+    }
+
+
+    if (londonActive) {
+
+        document
+            .getElementById("london")
+            .classList.add("active");
+
+    }
+
+
+    if (overlapActive) {
+
+        document
+            .getElementById("overlap")
+            .classList.add("active");
+
+    }
+
+
+    if (nyActive) {
+
+        document
+            .getElementById("newyork")
+            .classList.add("active");
+
+    }
+
+
+    /*
+       Weekend detection
+
+       Saturday = 6
+       Sunday   = 0
+    */
+
+    const day =
+        new Date().getDay();
+
+
+    const weekend =
+        day === 0 ||
+        day === 6;
+
+
+    const status =
+        document.getElementById(
+            "marketStatus"
+        );
+
+
+    if (weekend) {
+
+        status.textContent =
+            "🔴 MARKET CLOSED";
+
+        status.className =
+            "status closed";
+
+    }
+
+    else if (overlapActive) {
+
+        status.textContent =
+            "🟢 LONDON + NEW YORK OVERLAP ACTIVE";
+
+        status.className =
+            "status open";
+
+    }
+
+    else if (londonActive) {
+
+        status.textContent =
+            "🟢 LONDON SESSION ACTIVE";
+
+        status.className =
+            "status open";
+
+    }
+
+    else if (nyActive) {
+
+        status.textContent =
+            "🟢 NEW YORK SESSION ACTIVE";
+
+        status.className =
+            "status open";
+
+    }
+
+    else if (asiaActive) {
+
+        status.textContent =
+            "🟢 TOKYO SESSION ACTIVE";
+
+        status.className =
+            "status open";
+
+    }
+
+    else {
+
+        status.textContent =
+            "🟡 LOW ACTIVITY";
+
+        status.className =
+            "status";
+
+    }
+
+
+    /*
+       Current Tirana time
+    */
+
+    const tiranaTime =
+        String(tirana.hour)
+            .padStart(2, "0")
+        + ":" +
+        String(tirana.minute)
+            .padStart(2, "0")
+        + ":" +
+        String(tirana.second)
+            .padStart(2, "0");
+
+
+    document.getElementById(
+        "now"
+    ).textContent =
+        "TANI: " + tiranaTime;
+
+}
+
+
+/* ==========================================
+   RUN SESSION CHECK
+========================================== */
+
+updateSessions();
+
+
+/*
+   Update every second as well.
+   This keeps session status and
+   TANI synchronized with the clock.
+*/
+
+setInterval(
+    updateSessions,
+    1000
+);
 
 </script>
 
 </body>
+
 </html>
