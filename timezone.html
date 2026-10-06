@@ -287,7 +287,7 @@ body {
             </div>
 
             <div class="session-time">
-                09:00 – 18:00 Tokyo
+                --:-- – --:-- Ora Shqipëri
             </div>
 
         </div>
@@ -334,7 +334,7 @@ body {
             </div>
 
             <div class="session-time">
-                08:00 – 17:00 London
+                --:-- – --:-- Ora Shqipëri
             </div>
 
         </div>
@@ -389,7 +389,7 @@ body {
             </div>
 
             <div class="session-time">
-                Overlap
+                --:-- – --:-- Ora Shqipëri
             </div>
 
         </div>
@@ -448,7 +448,7 @@ body {
             </div>
 
             <div class="session-time">
-                08:00 – 17:00 New York
+                --:-- – --:-- Ora Shqipëri
             </div>
 
         </div>
@@ -644,6 +644,15 @@ function updateSessions() {
     const londonMinutes = london.hour * 60 + london.minute;
     const newYorkMinutes = newYork.hour * 60 + newYork.minute;
 
+    /*
+       Session hours are defined in each market's local timezone:
+       Tokyo 09:00–18:00
+       London 08:00–17:00
+       New York 08:00–17:00
+       The displayed times are automatically converted to Albania time,
+       including daylight-saving-time changes.
+    */
+
     const asiaOpen = 9 * 60;
     const asiaClose = 18 * 60;
 
@@ -652,6 +661,97 @@ function updateSessions() {
 
     const nyOpen = 8 * 60;
     const nyClose = 17 * 60;
+
+    function getOffsetMinutes(timeZone, date) {
+        const parts = new Intl.DateTimeFormat("en-US", {
+            timeZone: timeZone,
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: false
+        }).formatToParts(date);
+
+        const values = {};
+        parts.forEach(function(part) {
+            if (part.type !== "literal") {
+                values[part.type] = Number(part.value);
+            }
+        });
+
+        let hour = values.hour;
+        if (hour === 24) hour = 0;
+
+        const asUTC = Date.UTC(
+            values.year,
+            values.month - 1,
+            values.day,
+            hour,
+            values.minute,
+            values.second
+        );
+
+        return Math.round((asUTC - date.getTime()) / 60000);
+    }
+
+    function convertSessionTime(localMinutes, sourceZone, date) {
+        const sourceOffset = getOffsetMinutes(sourceZone, date);
+        const tiranaOffset = getOffsetMinutes(TIRANA_ZONE, date);
+
+        let result = localMinutes + (tiranaOffset - sourceOffset);
+
+        result = ((result % 1440) + 1440) % 1440;
+
+        return result;
+    }
+
+    function formatMinutes(minutes) {
+        const hour = Math.floor(minutes / 60);
+        const minute = minutes % 60;
+        return String(hour).padStart(2, "0") + ":" +
+               String(minute).padStart(2, "0");
+    }
+
+    /* Update displayed session times in Albania time */
+    const currentDate = new Date();
+
+    const asiaDisplayOpen = convertSessionTime(asiaOpen, "Asia/Tokyo", currentDate);
+    const asiaDisplayClose = convertSessionTime(asiaClose, "Asia/Tokyo", currentDate);
+
+    const londonDisplayOpen = convertSessionTime(londonOpen, "Europe/London", currentDate);
+    const londonDisplayClose = convertSessionTime(londonClose, "Europe/London", currentDate);
+
+    const nyDisplayOpen = convertSessionTime(nyOpen, "America/New_York", currentDate);
+    const nyDisplayClose = convertSessionTime(nyClose, "America/New_York", currentDate);
+
+    /* London + New York overlap */
+    const overlapStart = Math.max(
+        londonDisplayOpen,
+        nyDisplayOpen
+    );
+
+    const overlapEnd = Math.min(
+        londonDisplayClose,
+        nyDisplayClose
+    );
+
+    document.querySelector("#asia .session-time").textContent =
+        formatMinutes(asiaDisplayOpen) + " – " +
+        formatMinutes(asiaDisplayClose) + " Ora Shqipëri";
+
+    document.querySelector("#london .session-time").textContent =
+        formatMinutes(londonDisplayOpen) + " – " +
+        formatMinutes(londonDisplayClose) + " Ora Shqipëri";
+
+    document.querySelector("#newyork .session-time").textContent =
+        formatMinutes(nyDisplayOpen) + " – " +
+        formatMinutes(nyDisplayClose) + " Ora Shqipëri";
+
+    document.querySelector("#overlap .session-time").textContent =
+        formatMinutes(overlapStart) + " – " +
+        formatMinutes(overlapEnd) + " Ora Shqipëri";
 
     const asiaActive =
         tokyoMinutes >= asiaOpen &&
