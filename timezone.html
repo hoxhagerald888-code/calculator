@@ -207,6 +207,9 @@ body {
 
 }
 
+
+.news-box{margin-top:14px;padding-top:12px;border-top:1px solid #26364d}.news-title{font-size:13px;font-weight:bold;color:#fbbf24;margin-bottom:9px}.news-item{background:#111c2c;border:1px solid #26364d;border-left:4px solid #ef4444;border-radius:9px;padding:9px 10px;margin-bottom:7px}.news-row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.news-time{color:#fff;font-weight:bold}.news-currency{color:#fbbf24;font-weight:bold}.news-name{margin-top:4px;font-size:13px;color:#e5e7eb}.news-pairs{margin-top:5px;font-size:11px;color:#9ca3af}.news-empty{color:#6b7280;font-size:12px}.news-source{margin-top:12px;text-align:center;color:#6b7280;font-size:11px}
+
 </style>
 
 </head>
@@ -276,7 +279,12 @@ body {
     ========================== -->
 
     <div
-        id="asia"
+        id="a
+
+        <div id="asiaNews" class="news-box">
+            <div class="news-title">🔴 HIGH IMPACT NEWS</div>
+            <div class="news-empty">Po kontrollohen lajmet...</div>
+        </div>sia"
         class="session"
     >
 
@@ -319,7 +327,12 @@ body {
     ========================== -->
 
     <div
-        id="london"
+        id="l
+
+        <div id="londonNews" class="news-box">
+            <div class="news-title">🔴 HIGH IMPACT NEWS</div>
+            <div class="news-empty">Po kontrollohen lajmet...</div>
+        </div>ondon"
         class="session"
     >
 
@@ -370,7 +383,12 @@ body {
     ========================== -->
 
     <div
-        id="overlap"
+        id="o
+
+        <div id="overlapNews" class="news-box">
+            <div class="news-title">🔴 HIGH IMPACT NEWS</div>
+            <div class="news-empty">Po kontrollohen lajmet...</div>
+        </div>verlap"
         class="session"
     >
 
@@ -421,7 +439,12 @@ body {
     ========================== -->
 
     <div
-        id="newyork"
+        id="n
+
+        <div id="newyorkNews" class="news-box">
+            <div class="news-title">🔴 HIGH IMPACT NEWS</div>
+            <div class="news-empty">Po kontrollohen lajmet...</div>
+        </div>ewyork"
         class="session"
     >
 
@@ -834,6 +857,99 @@ setInterval(function() {
 console.log(
     "Forex Daily Agenda JavaScript is working."
 );
+
+
+
+/* ==========================================
+   HIGH IMPACT NEWS
+   Live weekly calendar: Forex Factory JSON
+========================================== */
+
+const NEWS_SOURCE = "https://nfs.faireconomy.media/ff_calendar_thisweek.json";
+
+const SESSION_NEWS = {
+    asia: ["USDJPY", "AUDUSD", "GBPJPY"],
+    london: ["EURUSD", "GBPUSD", "GBPJPY", "USDCHF", "XAUUSD"],
+    overlap: ["EURUSD", "GBPUSD", "USDCHF", "XAUUSD", "USDCAD"],
+    newyork: ["EURUSD", "GBPUSD", "USDJPY", "XAUUSD", "USDCAD", "USDCHF"]
+};
+
+const PAIR_CURRENCIES = {
+    EURUSD:["EUR","USD"], GBPUSD:["GBP","USD"], USDJPY:["USD","JPY"],
+    AUDUSD:["AUD","USD"], GBPJPY:["GBP","JPY"], USDCHF:["USD","CHF"],
+    XAUUSD:["USD"], USDCAD:["USD","CAD"]
+};
+
+function newsOffset(zone,date){
+    const parts=new Intl.DateTimeFormat("en-US",{timeZone:zone,year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false}).formatToParts(date);
+    const v={}; parts.forEach(p=>{if(p.type!=="literal")v[p.type]=Number(p.value)});
+    const h=v.hour===24?0:v.hour;
+    return Math.round((Date.UTC(v.year,v.month-1,v.day,h,v.minute,v.second)-date.getTime())/60000);
+}
+
+function sessionWindow(sessionId,date){
+    const spec={
+        asia:{open:540,close:1080,zone:"Asia/Tokyo"},
+        london:{open:480,close:1020,zone:"Europe/London"},
+        newyork:{open:480,close:1020,zone:"America/New_York"}
+    };
+    function convert(minutes,zone){return ((minutes+newsOffset(TIRANA_ZONE,date)-newsOffset(zone,date))%1440+1440)%1440;}
+    if(sessionId==="overlap"){
+        const l=sessionWindow("london",date),n=sessionWindow("newyork",date);
+        return {open:Math.max(l.open,n.open),close:Math.min(l.close,n.close)};
+    }
+    const s=spec[sessionId]; return {open:convert(s.open,s.zone),close:convert(s.close,s.zone)};
+}
+
+function tiranaMinutes(date){
+    const p=new Intl.DateTimeFormat("en-US",{timeZone:TIRANA_ZONE,hour:"2-digit",minute:"2-digit",hour12:false}).formatToParts(date);
+    let h=0,m=0;p.forEach(x=>{if(x.type==="hour")h=Number(x.value);if(x.type==="minute")m=Number(x.value)});
+    if(h===24)h=0;return h*60+m;
+}
+
+function inside(minute,w){return w.open<=w.close?minute>=w.open&&minute<w.close:minute>=w.open||minute<w.close;}
+
+function eventMatches(event,sessionId){
+    const cur=String(event.country||"").toUpperCase();
+    const pairs=SESSION_NEWS[sessionId];
+    if(!pairs.some(pair=>(PAIR_CURRENCIES[pair]||[]).includes(cur)))return false;
+    const d=new Date(event.date);if(Number.isNaN(d.getTime()))return false;
+    return inside(tiranaMinutes(d),sessionWindow(sessionId,d));
+}
+
+function newsTime(date){return new Intl.DateTimeFormat("sq-AL",{timeZone:TIRANA_ZONE,hour:"2-digit",minute:"2-digit",hour12:false}).format(date);}
+function newsDate(date){return new Intl.DateTimeFormat("sq-AL",{timeZone:TIRANA_ZONE,weekday:"short",day:"2-digit",month:"2-digit"}).format(date);}
+
+function renderNews(sessionId,events){
+    const box=document.getElementById(sessionId+"News"); if(!box)return;
+    const pairs=SESSION_NEWS[sessionId];
+    const list=events.filter(e=>eventMatches(e,sessionId)).sort((a,b)=>new Date(a.date)-new Date(b.date));
+    let html='<div class="news-title">🔴 HIGH IMPACT NEWS</div>';
+    if(!list.length){box.innerHTML=html+'<div class="news-empty">Nuk ka lajme HIGH IMPACT për këto pair-e në këtë sesion gjatë 7 ditëve të ardhshme.</div>';return;}
+    list.forEach(e=>{
+        const cur=String(e.country||"").toUpperCase();
+        const affected=pairs.filter(pair=>(PAIR_CURRENCIES[pair]||[]).includes(cur));
+        const d=new Date(e.date);
+        html+=`<div class="news-item"><div class="news-row"><span class="news-time">${newsDate(d)} · ${newsTime(d)}</span><span class="news-currency">${cur}</span></div><div class="news-name">${e.title}</div><div class="news-pairs">Ndikon te: ${affected.join(", ")}</div></div>`;
+    });
+    box.innerHTML=html+'<div class="news-source">Burimi: Forex Factory · orari në Shqipëri</div>';
+}
+
+async function loadHighImpactNews(){
+    try{
+        const r=await fetch(NEWS_SOURCE+"?t="+Date.now(),{cache:"no-store"});
+        if(!r.ok)throw new Error("calendar unavailable");
+        const data=await r.json(),now=Date.now(),week=now+7*24*60*60*1000;
+        const high=data.filter(e=>String(e.impact||"").toLowerCase()==="high"&&new Date(e.date).getTime()>=now&&new Date(e.date).getTime()<=week);
+        ["asia","london","overlap","newyork"].forEach(s=>renderNews(s,high));
+    }catch(err){
+        ["asia","london","overlap","newyork"].forEach(s=>{const b=document.getElementById(s+"News");if(b)b.innerHTML='<div class="news-title">🔴 HIGH IMPACT NEWS</div><div class="news-empty">Nuk u arrit të ngarkohej kalendari i lajmeve.</div>';});
+        console.error("News feed error:",err);
+    }
+}
+
+loadHighImpactNews();
+setInterval(loadHighImpactNews,15*60*1000);
 
 </script>
 
