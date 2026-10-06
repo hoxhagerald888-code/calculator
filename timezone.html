@@ -292,8 +292,10 @@ body {
 
         </div>
 
+        <div id="asiaStatus" class="session-status closed-now">🔴 CLOSED</div>
 
-        <div class="pairs">
+
+<div class="pairs">
 
             <span class="pair">
                 USDJPY
@@ -337,8 +339,10 @@ body {
 
         </div>
 
+        <div id="londonStatus" class="session-status closed-now">🔴 CLOSED</div>
 
-        <div class="pairs">
+
+<div class="pairs">
 
             <span class="pair">
                 EURUSD
@@ -390,8 +394,10 @@ body {
 
         </div>
 
+        <div id="overlapStatus" class="session-status closed-now">🔴 CLOSED</div>
 
-        <div class="pairs">
+
+<div class="pairs">
 
             <span class="pair">
                 EURUSD
@@ -447,8 +453,10 @@ body {
 
         </div>
 
+        <div id="newyorkStatus" class="session-status closed-now">🔴 CLOSED</div>
 
-        <div class="pairs">
+
+<div class="pairs">
 
             <span class="pair">
                 EURUSD
@@ -557,109 +565,29 @@ function updateClock() {
 
     const now = new Date();
 
-
-    /*
-       Get time in Tirana
+    /* 
+       Build the clock directly from the browser's
+       current timestamp on every tick.
+       This guarantees that seconds are refreshed.
     */
-
-    const parts =
-        new Intl.DateTimeFormat(
-            "en-US",
-            {
-                timeZone: TIRANA_ZONE,
-
-                hour: "2-digit",
-
-                minute: "2-digit",
-
-                second: "2-digit",
-
-                hour12: false
-            }
-        ).formatToParts(now);
-
-
-    let hour = "00";
-    let minute = "00";
-    let second = "00";
-
-
-    parts.forEach(function(part) {
-
-        if (part.type === "hour") {
-
-            hour = part.value;
-
-        }
-
-        if (part.type === "minute") {
-
-            minute = part.value;
-
-        }
-
-        if (part.type === "second") {
-
-            second = part.value;
-
-        }
-
+    const clock = now.toLocaleTimeString("sq-AL", {
+        timeZone: TIRANA_ZONE,
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false
     });
 
+    const date = now.toLocaleDateString("sq-AL", {
+        timeZone: TIRANA_ZONE,
+        weekday: "long",
+        day: "2-digit",
+        month: "long",
+        year: "numeric"
+    });
 
-    /*
-       Some browsers can return
-       24 instead of 00 at midnight.
-    */
-
-    if (hour === "24") {
-
-        hour = "00";
-
-    }
-
-
-    /*
-       Build clock manually
-    */
-
-    const clock =
-        hour +
-        ":" +
-        minute +
-        ":" +
-        second;
-
-
-    document.getElementById(
-        "clock"
-    ).textContent = clock;
-
-
-    /*
-       Date
-    */
-
-    const date =
-        new Intl.DateTimeFormat(
-            "sq-AL",
-            {
-                timeZone: TIRANA_ZONE,
-
-                weekday: "long",
-
-                day: "2-digit",
-
-                month: "long",
-
-                year: "numeric"
-            }
-        ).format(now);
-
-
-    document.getElementById(
-        "date"
-    ).textContent = date;
+    document.getElementById("clock").textContent = clock;
+    document.getElementById("date").textContent = date;
 
 }
 
@@ -687,252 +615,117 @@ setInterval(function() {
    SESSION LOGIC
 ========================================== */
 
+function setSessionStatus(statusId, cardId, active) {
+
+    const badge = document.getElementById(statusId);
+    const card = document.getElementById(cardId);
+
+    card.classList.remove("active");
+
+    if (active) {
+        badge.textContent = "🟢 ACTIVE NOW";
+        badge.className = "session-status active-now";
+        card.classList.add("active");
+    } else {
+        badge.textContent = "🔴 CLOSED";
+        badge.className = "session-status closed-now";
+    }
+}
+
+
 function updateSessions() {
 
+    const tirana = getTimeParts("Europe/Tirane");
+    const tokyo = getTimeParts("Asia/Tokyo");
+    const london = getTimeParts("Europe/London");
+    const newYork = getTimeParts("America/New_York");
 
-    const tirana =
-        getTimeParts(
-            "Europe/Tirane"
-        );
-
-
-    const tokyo =
-        getTimeParts(
-            "Asia/Tokyo"
-        );
-
-
-    const london =
-        getTimeParts(
-            "Europe/London"
-        );
-
-
-    const newYork =
-        getTimeParts(
-            "America/New_York"
-        );
-
-
-    /* =========================
-       CONVERT TO MINUTES
-    ========================== */
-
-    const tokyoMinutes =
-        tokyo.hour * 60 +
-        tokyo.minute;
-
-
-    const londonMinutes =
-        london.hour * 60 +
-        london.minute;
-
-
-    const newYorkMinutes =
-        newYork.hour * 60 +
-        newYork.minute;
-
-
-    /* =========================
-       SESSION TIMES
-    ========================== */
+    const tokyoMinutes = tokyo.hour * 60 + tokyo.minute;
+    const londonMinutes = london.hour * 60 + london.minute;
+    const newYorkMinutes = newYork.hour * 60 + newYork.minute;
 
     const asiaOpen = 9 * 60;
     const asiaClose = 18 * 60;
 
-
     const londonOpen = 8 * 60;
     const londonClose = 17 * 60;
 
-
     const nyOpen = 8 * 60;
     const nyClose = 17 * 60;
-
-
-    /* =========================
-       ACTIVE SESSIONS
-    ========================== */
 
     const asiaActive =
         tokyoMinutes >= asiaOpen &&
         tokyoMinutes < asiaClose;
 
-
     const londonActive =
         londonMinutes >= londonOpen &&
         londonMinutes < londonClose;
-
 
     const nyActive =
         newYorkMinutes >= nyOpen &&
         newYorkMinutes < nyClose;
 
-
     const overlapActive =
-        londonActive &&
-        nyActive;
+        londonActive && nyActive;
 
+    /* Individual status for every session */
+    setSessionStatus("asiaStatus", "asia", asiaActive);
+    setSessionStatus("londonStatus", "london", londonActive);
+    setSessionStatus("overlapStatus", "overlap", overlapActive);
+    setSessionStatus("newyorkStatus", "newyork", nyActive);
 
-    /* =========================
-       REMOVE ACTIVE
-    ========================== */
+    /* Weekend */
+    const day = new Date().getDay();
+    const weekend = day === 0 || day === 6;
 
-    document
-        .querySelectorAll(".session")
-        .forEach(function(element) {
-
-            element.classList.remove(
-                "active"
-            );
-
-        });
-
-
-    /* =========================
-       ADD ACTIVE
-    ========================== */
-
-    if (asiaActive) {
-
-        document
-            .getElementById("asia")
-            .classList.add("active");
-
-    }
-
-
-    if (londonActive) {
-
-        document
-            .getElementById("london")
-            .classList.add("active");
-
-    }
-
-
-    if (overlapActive) {
-
-        document
-            .getElementById("overlap")
-            .classList.add("active");
-
-    }
-
-
-    if (nyActive) {
-
-        document
-            .getElementById("newyork")
-            .classList.add("active");
-
-    }
-
-
-    /* =========================
-       WEEKEND
-    ========================== */
-
-    const day =
-        new Date().getDay();
-
-
-    const weekend =
-        day === 0 ||
-        day === 6;
-
-
-    const status =
-        document.getElementById(
-            "marketStatus"
-        );
-
+    const status = document.getElementById("marketStatus");
 
     if (weekend) {
 
-        status.textContent =
-            "🔴 MARKET CLOSED";
+        status.textContent = "🔴 MARKET CLOSED";
+        status.className = "status closed";
 
-        status.className =
-            "status closed";
+        setSessionStatus("asiaStatus", "asia", false);
+        setSessionStatus("londonStatus", "london", false);
+        setSessionStatus("overlapStatus", "overlap", false);
+        setSessionStatus("newyorkStatus", "newyork", false);
 
-    }
+    } else if (overlapActive) {
 
-    else if (overlapActive) {
+        status.textContent = "🟢 LONDON + NEW YORK OVERLAP ACTIVE";
+        status.className = "status open";
 
-        status.textContent =
-            "🟢 LONDON + NEW YORK OVERLAP ACTIVE";
+    } else if (londonActive) {
 
-        status.className =
-            "status open";
+        status.textContent = "🟢 LONDON SESSION ACTIVE";
+        status.className = "status open";
 
-    }
+    } else if (nyActive) {
 
-    else if (londonActive) {
+        status.textContent = "🟢 NEW YORK SESSION ACTIVE";
+        status.className = "status open";
 
-        status.textContent =
-            "🟢 LONDON SESSION ACTIVE";
+    } else if (asiaActive) {
 
-        status.className =
-            "status open";
+        status.textContent = "🟢 TOKYO SESSION ACTIVE";
+        status.className = "status open";
 
-    }
+    } else {
 
-    else if (nyActive) {
-
-        status.textContent =
-            "🟢 NEW YORK SESSION ACTIVE";
-
-        status.className =
-            "status open";
+        status.textContent = "🟡 LOW ACTIVITY";
+        status.className = "status";
 
     }
-
-    else if (asiaActive) {
-
-        status.textContent =
-            "🟢 TOKYO SESSION ACTIVE";
-
-        status.className =
-            "status open";
-
-    }
-
-    else {
-
-        status.textContent =
-            "🟡 LOW ACTIVITY";
-
-        status.className =
-            "status";
-
-    }
-
-
-    /* =========================
-       CURRENT TIRANA TIME
-    ========================== */
 
     const tiranaTime =
+        String(tirana.hour).padStart(2, "0") +
+        ":" +
+        String(tirana.minute).padStart(2, "0") +
+        ":" +
+        String(tirana.second).padStart(2, "0");
 
-        String(tirana.hour)
-            .padStart(2, "0")
-
-        + ":" +
-
-        String(tirana.minute)
-            .padStart(2, "0")
-
-        + ":" +
-
-        String(tirana.second)
-            .padStart(2, "0");
-
-
-    document.getElementById(
-        "now"
-    ).textContent =
+    document.getElementById("now").textContent =
         "TANI: " + tiranaTime;
-
 }
 
 
